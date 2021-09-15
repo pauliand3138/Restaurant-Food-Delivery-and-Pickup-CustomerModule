@@ -97,7 +97,7 @@ public class Home extends AppCompatActivity {
             @Override
             protected void populateViewHolder(MenuViewHolder menuViewHolder, FoodCategory foodCategory, int i) {
                 menuViewHolder.txtMenuName.setText(foodCategory.getFoodCatName());
-                Picasso.with(getBaseContext()).load(foodCategory.getFoodImageURL()).into(menuViewHolder.imageView);
+                Picasso.with(getBaseContext()).load(foodCategory.getFoodCatImageURL()).into(menuViewHolder.imageView);
                 FoodCategory clickItem = foodCategory;
                 menuViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
@@ -109,6 +109,7 @@ public class Home extends AppCompatActivity {
         };
         recyclerMenu.setAdapter(adapter);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

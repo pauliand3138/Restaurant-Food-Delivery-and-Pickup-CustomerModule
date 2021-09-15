@@ -2,30 +2,30 @@ package com.example.capstoneproject.Model;
 
 public class FoodCategory {
     private String foodCatName;
-    private String foodImageURL;
+    private String foodCatImageURL;
 
     public FoodCategory() {
 
     }
 
-    public FoodCategory(String foodCatName, String foodImageURL) {
+    public FoodCategory(String foodCatName, String foodCatImageURL) {
         this.foodCatName = foodCatName;
-        this.foodImageURL = foodImageURL;
+        this.foodCatImageURL = foodCatImageURL;
     }
 
     public String getFoodCatName() {
         return foodCatName;
     }
 
-    public String getFoodImageURL() {
-        return foodImageURL;
+    public String getFoodCatImageURL() {
+        return foodCatImageURL;
     }
 
     public void setFoodCatName(String foodCatName) {
         this.foodCatName = foodCatName;
     }
 
-    public void setFoodImageURL(String foodImageURL) {
-        this.foodImageURL = foodImageURL;
+    public void setFoodImageURL(String foodCatImageURL) {
+        this.foodCatImageURL = foodCatImageURL;
     }
 }
