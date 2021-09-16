@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.capstoneproject.Interface.ItemClickListener;
 import com.example.capstoneproject.Model.Food;
 import com.example.capstoneproject.ViewHolder.FoodViewHolder;
@@ -60,13 +62,17 @@ public class FoodList extends AppCompatActivity {
             @Override
             protected void populateViewHolder(FoodViewHolder foodViewHolder, Food food, int i) {
                 foodViewHolder.txtfoodName.setText(food.getFoodName());
-                Picasso.with(getBaseContext()).load(food.getFoodImageURL()).into(foodViewHolder.food_image);
-
+//                Picasso.with(getBaseContext()).load(food.getFoodImageURL()).resize(300,300).into(foodViewHolder.food_image);
+                Glide.with(getBaseContext()).load(food.getFoodImageURL()).into(foodViewHolder.food_image);
                 Food selectedFood = food;
                 foodViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Toast.makeText(FoodList.this, ""+selectedFood.getFoodName(), Toast.LENGTH_SHORT).show();
+                        //Start new Activity
+                        Intent foodDetail = new Intent(FoodList.this, FoodDetail.class);
+                        //Send food ID to new Activity
+                        foodDetail.putExtra("Food ID", adapter.getRef(position).getKey());
+                        startActivity(foodDetail);
                     }
                 });
             }

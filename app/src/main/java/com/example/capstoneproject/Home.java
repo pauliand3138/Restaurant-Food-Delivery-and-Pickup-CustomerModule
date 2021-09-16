@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.capstoneproject.Common.Common;
 import com.example.capstoneproject.Interface.ItemClickListener;
 import com.example.capstoneproject.Model.Food;
@@ -100,8 +101,8 @@ public class Home extends AppCompatActivity {
             @Override
             protected void populateViewHolder(MenuViewHolder menuViewHolder, FoodCategory foodCategory, int i) {
                 menuViewHolder.txtMenuName.setText(foodCategory.getFoodCatName());
-                Picasso.with(getBaseContext()).load(foodCategory.getFoodCatImageURL()).into(menuViewHolder.imageView);
-
+//                Picasso.with(getBaseContext()).load(foodCategory.getFoodCatImageURL()).into(menuViewHolder.imageView);
+                Glide.with(getBaseContext()).load(foodCategory.getFoodCatImageURL()).into(menuViewHolder.imageView);
                 FoodCategory clickItem = foodCategory;
                 menuViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
@@ -109,7 +110,7 @@ public class Home extends AppCompatActivity {
                         //Get the foodCategoryID which the user selected and send to new Activity
                         Intent foodList = new Intent(Home.this, FoodList.class); //Need to put Home.this because .this refers to ItemClickListener
 
-                        //foodCategoryID is a key in firebase, so we just need to use getKey at this point
+                        //foodCategoryID is a key in firebase, so we just need to use getKey, and send this info to new Activity
                         foodList.putExtra("Food Category ID", adapter.getRef(position).getKey());
                         startActivity(foodList);
                     }
