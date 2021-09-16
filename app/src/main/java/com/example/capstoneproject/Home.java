@@ -1,6 +1,7 @@
 package com.example.capstoneproject;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.capstoneproject.Common.Common;
 import com.example.capstoneproject.Interface.ItemClickListener;
+import com.example.capstoneproject.Model.Food;
 import com.example.capstoneproject.Model.FoodCategory;
 import com.example.capstoneproject.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -40,6 +42,7 @@ public class Home extends AppCompatActivity {
     RecyclerView recyclerMenu;
     RecyclerView.LayoutManager layoutManager;
 
+    FirebaseRecyclerAdapter<FoodCategory,MenuViewHolder> adapter;
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
@@ -93,16 +96,22 @@ public class Home extends AppCompatActivity {
 
     private void loadMenu() {
 
-        FirebaseRecyclerAdapter<FoodCategory,MenuViewHolder> adapter = new FirebaseRecyclerAdapter<FoodCategory, MenuViewHolder>(FoodCategory.class, R.layout.menu_item, MenuViewHolder.class,category) {
+        adapter = new FirebaseRecyclerAdapter<FoodCategory, MenuViewHolder>(FoodCategory.class, R.layout.menu_item, MenuViewHolder.class,category) {
             @Override
             protected void populateViewHolder(MenuViewHolder menuViewHolder, FoodCategory foodCategory, int i) {
                 menuViewHolder.txtMenuName.setText(foodCategory.getFoodCatName());
                 Picasso.with(getBaseContext()).load(foodCategory.getFoodCatImageURL()).into(menuViewHolder.imageView);
+
                 FoodCategory clickItem = foodCategory;
                 menuViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Toast.makeText(Home.this, ""+clickItem.getFoodCatName(), Toast.LENGTH_SHORT).show();
+                        //Get the foodCategoryID which the user selected and send to new Activity
+                        Intent foodList = new Intent(Home.this, FoodList.class); //Need to put Home.this because .this refers to ItemClickListener
+
+                        //foodCategoryID is a key in firebase, so we just need to use getKey at this point
+                        foodList.putExtra("Food Category ID", adapter.getRef(position).getKey());
+                        startActivity(foodList);
                     }
                 });
             }
