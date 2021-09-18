@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.disklrucache.DiskLruCache;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.capstoneproject.Model.Food;
+import com.example.capstoneproject.Model.Order;
+import com.example.capstoneproject.database.Database;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +39,8 @@ public class FoodDetail extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference food;
 
+    Food currentFood;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,23 @@ public class FoodDetail extends AppCompatActivity {
 
         numberButton = findViewById(R.id.numberButton);
         cartButton = findViewById(R.id.cartButton);
+
+        cartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Database(getBaseContext()).addToCart(new Order(
+                        foodID,
+                        currentFood.getFoodName(),
+                        numberButton.getNumber(),
+                        currentFood.getFoodPrice()
+
+
+                ));
+
+                Toast.makeText(FoodDetail.this, "Added to Cart", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         foodDesc = findViewById(R.id.foodDesc);
         foodName = findViewById(R.id.foodName);
         foodPrice = findViewById(R.id.foodPrice);
@@ -68,22 +91,22 @@ public class FoodDetail extends AppCompatActivity {
         food.child(foodID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Food food = snapshot.getValue(Food.class);
+                currentFood = snapshot.getValue(Food.class);
 
-                Glide.with(getBaseContext()).load(food.getFoodImageURL()).into(foodImage);
+                Glide.with(getBaseContext()).load(currentFood.getFoodImageURL()).into(foodImage);
 
-                collapsingToolbarLayout.setTitle(food.getFoodName());
+                collapsingToolbarLayout.setTitle(currentFood.getFoodName());
 
-                foodPrice.setText(food.getFoodPrice());
+                foodPrice.setText(currentFood.getFoodPrice());
 
-                foodName.setText(food.getFoodName());
+                foodName.setText(currentFood.getFoodName());
 
-                foodDesc.setText(food.getFoodDesc());
+                foodDesc.setText(currentFood.getFoodDesc());
 
                 numberButton.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
                     @Override
                     public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                        foodPrice.setText(String.format("%.2f",Float.parseFloat(food.getFoodPrice()) * newValue));
+                        foodPrice.setText(String.format("%.2f",Float.parseFloat(currentFood.getFoodPrice()) * newValue));
                     }
                 });
             }

@@ -5,6 +5,7 @@ public class Customer {
     private String custPassword;
     private String custTelNo;
 
+
     public Customer() {
 
     }

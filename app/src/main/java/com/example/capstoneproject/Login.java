@@ -53,6 +53,7 @@ public class Login extends AppCompatActivity {
                             //Get customer information
                             Customer customer = snapshot.child(usernameText.getText().toString()).getValue(Customer.class);
 
+
                             if(customer.getCustPassword().equals(passwordText.getText().toString())) {
                                 Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
                                 Intent homeIntent = new Intent(Login.this, Home.class);

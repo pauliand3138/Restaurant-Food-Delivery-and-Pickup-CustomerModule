@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Dolan/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/activity_cart.xml" value="0.2246376811594203" />
+        <entry key="..\:/Users/Dolan/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/activity_login.xml" value="0.21422101449275363" />
+        <entry key="..\:/Users/Dolan/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/cart_layout.xml" value="0.25" />
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProject/app/src/main/res/drawable/side_nav_bar.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProject/app/src/main/res/layout/activity_food_detail.xml" value="0.33" />
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProject/app/src/main/res/layout/activity_food_list.xml" value="0.32395833333333335" />
