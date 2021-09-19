@@ -10,10 +10,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.disklrucache.DiskLruCache;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.example.capstoneproject.Model.CartDetail;
 import com.example.capstoneproject.Model.Food;
-import com.example.capstoneproject.Model.Order;
 import com.example.capstoneproject.database.Database;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -56,12 +55,11 @@ public class FoodDetail extends AppCompatActivity {
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Database(getBaseContext()).addToCart(new Order(
+                new Database(getBaseContext()).addToCart(new CartDetail(
                         foodID,
                         currentFood.getFoodName(),
                         numberButton.getNumber(),
                         currentFood.getFoodPrice()
-
 
                 ));
 

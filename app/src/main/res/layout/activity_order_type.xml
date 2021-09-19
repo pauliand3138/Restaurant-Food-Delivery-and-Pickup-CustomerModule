@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundimage"
+    tools:context=".OrderType">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="53dp"
+        android:layout_marginTop="95dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lobster"
+            android:gravity="center"
+            android:text="@string/inti_restaurant"
+            android:textColor="#FFFFFF"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/subtitleTextView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Choose your order type!"
+            android:textSize="20sp"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="110dp"
+        android:orientation="vertical"
+        android:weightSum="2"> <!-- To make the layout to render correctly -->
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/deliveryButton"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:text="Delivery"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:cornerRadius="20dp"
+            app:fButtonColor="@color/fbutton_color_wet_asphalt"
+            app:shadowColor="@color/black"
+            app:shadowEnabled="true"
+            app:shadowHeight="1.0dp" />
+
+        <info.hoang8f.widget.FButton
+            android:id="@+id/dineInButton"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:text="Dine in"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            app:cornerRadius="20dp"
+            app:fButtonColor="@color/fbutton_color_peter_river"
+            app:shadowColor="@color/black"
+            app:shadowEnabled="true"
+            app:shadowHeight="1.0dp" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

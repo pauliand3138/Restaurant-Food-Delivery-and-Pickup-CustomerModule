@@ -14,11 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.capstoneproject.Common.Common;
+import com.example.capstoneproject.Model.CartDetail;
+import com.example.capstoneproject.Model.DeliverOrDineIn;
 import com.example.capstoneproject.Model.Order;
-import com.example.capstoneproject.Model.Request;
 import com.example.capstoneproject.ViewHolder.CartAdapter;
 import com.example.capstoneproject.database.Database;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -35,14 +35,15 @@ public class Cart extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
 
     FirebaseDatabase database;
-    DatabaseReference requests;
+    DatabaseReference orders;
 
     TextView txtTotalPrice;
     FButton btnPlace;
 
-    List<Order> cart = new ArrayList<>();
+    List<CartDetail> cart = new ArrayList<>();
 
     CartAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class Cart extends AppCompatActivity {
 
         //Firebase
         database = FirebaseDatabase.getInstance("https://capstoneproject-c2dbe-default-rtdb.asia-southeast1.firebasedatabase.app");
-        requests = database.getReference("Requests");
+        orders = database.getReference("Order");
 
         //Init
         recyclerView = findViewById(R.id.listCart);
@@ -59,83 +60,153 @@ public class Cart extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        txtTotalPrice = (TextView)findViewById(R.id.total);
-        btnPlace = (FButton)findViewById(R.id.btnPlaceOrder);
+        txtTotalPrice = findViewById(R.id.total);
+        btnPlace = findViewById(R.id.btnPlaceOrder);
 
         btnPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Create new Request
+                //Create new order
                 showAlertDialog();
             }
         });
 
-
         loadListFood();
-
     }
-    private void showAlertDialog(){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
-        alertDialog.setTitle("One more step!");
-        alertDialog.setMessage("Enter your address: ");
 
-        final EditText edtAddress = new EditText(Cart.this);
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        );
-        edtAddress.setLayoutParams(lp);
-        alertDialog.setView(edtAddress); //Add edit Text to alert dialog
-        alertDialog.setIcon(R.drawable.ic_baseline_shopping_cart_24);
+    private void showAlertDialog() {
 
-        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Request request = new Request(
-                        Common.currentUser.getCustTelNo(),
-                        Common.currentUser.getCustName(),
-                        edtAddress.getText().toString(),
-                        txtTotalPrice.getText().toString(),
-                        cart
+        //if orderType is delivery
+        if (Common.currentOrderType.getOrderType().equals("Delivery")) {
+
+            if(txtTotalPrice.getText().toString().equals("RM0.00")) {
+                Toast.makeText(Cart.this, "Cart must not be empty!", Toast.LENGTH_SHORT).show();
+
+            } else {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
+                alertDialog.setTitle("One more step!");
+                alertDialog.setMessage("Enter your address: ");
+
+                //create editText to allow users to enter their address
+                final EditText addressText = new EditText(Cart.this);
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT
                 );
+                addressText.setLayoutParams(lp);
+                alertDialog.setView(addressText); //Add addressText  to alert dialog
+                alertDialog.setIcon(R.drawable.ic_baseline_shopping_cart_24);
 
-                //Submit to firebase
-                requests.child(String.valueOf(System.currentTimeMillis()))
-                        .setValue(request);
-                //Delete cart
-                new Database(getBaseContext()).cleanCart();
-                Toast.makeText(Cart.this,"Thank you, order placed",Toast.LENGTH_SHORT).show();
-                finish();
+                alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        if(addressText.getText().toString().isEmpty()) {
+                            Toast.makeText(Cart.this, "Address must not be empty!", Toast.LENGTH_SHORT).show();
+                            dialogInterface.dismiss();
+
+                        } else {
+                            Order order = new Order(
+                                    Common.currentUser.getCustID(),
+                                    Common.currentUser.getCustTelNo(),
+                                    Common.currentUser.getCustName(),
+                                    addressText.getText().toString(),
+                                    Common.currentOrderType.getOrderType(),
+                                    txtTotalPrice.getText().toString(),
+                                    cart
+                            );
+
+                            //Submit order to firebase
+                            orders.child(String.valueOf(System.currentTimeMillis()))
+                                    .setValue(order);
+                            //Delete cart after placing order
+                            new Database(getBaseContext()).cleanCart();
+                            Toast.makeText(Cart.this, "Thank you, order placed", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+
+                    }//end onClick
+
+                });//end alertDialog.setPositiveButton
+
+                alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                alertDialog.show();
             }
-        });
 
-    alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialogInterface, int i) {
-            dialogInterface.dismiss();
+        //if orderType is dine in
+        } else {
+
+            if(txtTotalPrice.getText().toString().equals("RM0.00")) {
+                Toast.makeText(Cart.this, "Cart must not be empty!", Toast.LENGTH_SHORT).show();
+            } else {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
+                alertDialog.setTitle("Order Confirmation!");
+                alertDialog.setMessage("You will need to pickup your order from our restaurant at:\n\n" +
+                        "1-Z, Lebuh Bukit Jambul,\nBukit Jambul,\n11900 Bayan Lepas,\nPulau Pinang");
+
+                alertDialog.setIcon(R.drawable.ic_baseline_shopping_cart_24);
+
+                alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Order order = new Order(
+                                Common.currentUser.getCustID(),
+                                Common.currentUser.getCustTelNo(),
+                                Common.currentUser.getCustName(),
+                                "NULL",
+                                Common.currentOrderType.getOrderType(),
+                                txtTotalPrice.getText().toString(),
+                                cart
+                        );
+
+                        //Submit order to firebase
+                        orders.child(String.valueOf(System.currentTimeMillis()))
+                                .setValue(order);
+                        //Delete cart after placing order
+                        new Database(getBaseContext()).cleanCart();
+                        Toast.makeText(Cart.this, "Thank you, order placed", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }//end onClick
+
+                });//end alertDialog.setPositiveButton
+
+                alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                alertDialog.show();
+            }
+
         }
-    });
-
-    alertDialog.show();
-
 
     }
-    private void loadListFood(){
+
+    private void loadListFood() {
         cart = new Database(this).getCarts();
-        adapter = new CartAdapter(cart,this);
+        adapter = new CartAdapter(cart, this);
         recyclerView.setAdapter(adapter);
 
         //Calculate total price
         float total = 0;
-        for(Order order:cart) {
+        for (CartDetail cartDetail : cart) {
             float price;
             int quantity;
-            price = Float.parseFloat(order.getPrice());
-            quantity = Integer.parseInt(order.getQuantity());
+            price = Float.parseFloat(cartDetail.getFoodPrice());
+            quantity = Integer.parseInt(cartDetail.getQuantity());
 
             total += price * quantity;
         }
-        Locale locale = new Locale("en","MY");
+        Locale locale = new Locale("en", "MY");
+        //Get currency RM
         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
 
         txtTotalPrice.setText(fmt.format(total));

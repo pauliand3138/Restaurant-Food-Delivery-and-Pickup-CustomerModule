@@ -13,10 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.example.capstoneproject.Interface.ItemClickListener;
-import com.example.capstoneproject.Model.Order;
+import com.example.capstoneproject.Model.CartDetail;
 import com.example.capstoneproject.R;
-
-import org.w3c.dom.Text;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -25,20 +23,20 @@ import java.util.Locale;
 
 class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    public TextView txt_cart_name,txt_price;
-    public ImageView img_cart_count;
+    public TextView foodName,foodPrice;
+    public ImageView foodQuantity;
 
     private ItemClickListener itemClickListener;
 
     public void setTxt_cart_name(TextView txt_cart_name) {
-        this.txt_cart_name = txt_cart_name;
+        this.foodName = txt_cart_name;
     }
 
     public CartViewHolder(@NonNull View itemView) {
         super(itemView);
-        txt_cart_name = (TextView)itemView.findViewById(R.id.cart_item_name);
-        txt_price = (TextView)itemView.findViewById(R.id.cart_item_Price);
-        img_cart_count = (ImageView)itemView.findViewById(R.id.cart_item_count);
+        foodName = itemView.findViewById(R.id.foodName);
+        foodPrice = itemView.findViewById(R.id.foodPrice);
+        foodQuantity = itemView.findViewById(R.id.foodQuantity);
     }
 
     @Override
@@ -49,44 +47,52 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 
 public class CartAdapter extends RecyclerView.Adapter<CartViewHolder>{
 
-    private List<Order> listData = new ArrayList<>();
-    private Context context;
+    private List<CartDetail> listData = new ArrayList<>();
+    private Context context; //The location where we want to show our food selected
 
-    public CartAdapter(List<Order> listData, Context context) {
+    public CartAdapter(List<CartDetail> listData, Context context) {
         this.listData = listData;
         this.context = context;
     }
 
-    @NonNull
+    //Set layout of food ordered in cart
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
+        //Apply layout from cart_layout.xml to cart.xml
         View itemView = inflater.inflate(R.layout.cart_layout,parent,false);
         return new CartViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
-        TextDrawable drawable = TextDrawable.builder()
-                .buildRound(""+listData.get(position).getQuantity(), Color.RED);
-        holder.img_cart_count.setImageDrawable(drawable);
+        //TextDrawable library is used to display quantity selected for a certain food that user picked
+        TextDrawable drawable = TextDrawable.builder().beginConfig().fontSize(50).endConfig()
+                .buildRound(""+listData.get(position).getQuantity()+"x", Color.parseColor("#0A5061"));
 
+        //Set the foodQuantity value in the cardview holder in cart_layout.xml
+        holder.foodQuantity.setImageDrawable(drawable);
+
+        //To get currency "RM"
         Locale locale = new Locale("en","MY");
         NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
+
         float price;
         float itemPrice;
         int quantity;
-        itemPrice = Float.parseFloat(listData.get(position).getPrice());
+
+        //Convert String to respective data types and set value into the cardview holder
+        itemPrice = Float.parseFloat(listData.get(position).getFoodPrice());
         quantity = Integer.parseInt(listData.get(position).getQuantity());
         price = itemPrice * quantity;
-        holder.txt_price.setText(fmt.format(price));
 
-        holder.txt_cart_name.setText(listData.get(position).getProductName());
+        holder.foodPrice.setText(fmt.format(price));
+
+        holder.foodName.setText(listData.get(position).getFoodName());
     }
 
     @Override
     public int getItemCount() {
         return listData.size();
-
     }
 }

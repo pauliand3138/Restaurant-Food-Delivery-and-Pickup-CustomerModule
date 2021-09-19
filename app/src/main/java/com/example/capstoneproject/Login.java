@@ -52,13 +52,13 @@ public class Login extends AppCompatActivity {
 
                             //Get customer information
                             Customer customer = snapshot.child(usernameText.getText().toString()).getValue(Customer.class);
-
+                            customer.setCustID(usernameText.getText().toString());
 
                             if(customer.getCustPassword().equals(passwordText.getText().toString())) {
                                 Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                                Intent homeIntent = new Intent(Login.this, Home.class);
+                                Intent orderTypeIntent = new Intent(Login.this, OrderType.class);
                                 Common.currentUser = customer;
-                                startActivity(homeIntent);
+                                startActivity(orderTypeIntent);
                                 finish();
 
                             } else {

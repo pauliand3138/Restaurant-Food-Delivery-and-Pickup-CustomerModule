@@ -23,7 +23,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/cart_item_name"
+                android:id="@+id/foodName"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical|start"
                 android:textAllCaps="true"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/cart_item_Price"
+                android:id="@+id/foodPrice"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical|start"
                 android:textAllCaps="true"
@@ -47,9 +47,9 @@
         <ImageView
             android:layout_gravity="center_vertical|end"
             android:layout_marginRight="16dp"
-            android:id="@+id/cart_item_count"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
+            android:id="@+id/foodQuantity"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
 
     </LinearLayout>
 

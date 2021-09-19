@@ -1,6 +1,7 @@
 package com.example.capstoneproject.Model;
 
 public class Customer {
+    private String custID;
     private String custName;
     private String custPassword;
     private String custTelNo;
@@ -16,6 +17,13 @@ public class Customer {
         custTelNo = t;
     }
 
+    public String getCustID() {
+        return custID;
+    }
+
+    public void setCustID(String custID) {
+        this.custID = custID;
+    }
 
     public String getCustName() {
         return custName;
