@@ -9,6 +9,7 @@ public class Order {
     private String orderAddress;
     private String orderType;
     private String orderPrice;
+    private String status;
     private List<CartDetail> foods; //List of food order
 
     public Order() {
@@ -22,6 +23,11 @@ public class Order {
         this.orderType = orderType;
         this.orderPrice = orderPrice;
         this.foods = foods;
+        this.status = "0"; //Default is 0, 0: Placed, 1: Delivering, 2: Delivered
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getCustID() {

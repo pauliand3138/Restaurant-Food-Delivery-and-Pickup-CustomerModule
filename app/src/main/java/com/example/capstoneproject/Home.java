@@ -3,6 +3,7 @@ package com.example.capstoneproject;
 import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -79,7 +81,31 @@ public class Home extends AppCompatActivity {
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+
+                if(id == R.id.nav_menu){
+
+                }
+                else if(id == R.id.nav_cart){
+                    Intent cartIntent = new Intent(Home.this,Cart.class);
+                    startActivity(cartIntent);
+                }
+                else if(id == R.id.nav_orders){
+                    Intent orderIntent = new Intent(Home.this,OrderStatus.class);
+                    startActivity(orderIntent);
+                }
+                else if(id == R.id.nav_log_out){
+                    //Logout
+                    Intent logIn = new Intent(Home.this,Login.class);
+                    logIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(logIn);
+                }
+                return false;
+            }
+        });
 
         //Set Name for user
         View headerView = navigationView.getHeaderView(0);
