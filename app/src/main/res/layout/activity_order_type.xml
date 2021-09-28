@@ -68,7 +68,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:text="Dine in"
+            android:text="PICKUP"
             android:textColor="@color/white"
             android:textSize="25sp"
             app:cornerRadius="20dp"

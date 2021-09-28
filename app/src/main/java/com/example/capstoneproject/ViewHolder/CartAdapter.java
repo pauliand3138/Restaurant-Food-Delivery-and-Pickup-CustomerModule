@@ -2,6 +2,7 @@ package com.example.capstoneproject.ViewHolder;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+    ,View.OnCreateContextMenuListener{
 
     public TextView foodName,foodPrice;
     public ImageView foodQuantity;
@@ -37,11 +39,19 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
         foodName = itemView.findViewById(R.id.foodName);
         foodPrice = itemView.findViewById(R.id.foodPrice);
         foodQuantity = itemView.findViewById(R.id.foodQuantity);
+
+        itemView.setOnCreateContextMenuListener(this);
     }
 
     @Override
     public void onClick(View view) {
 
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+        contextMenu.setHeaderTitle("Select action");
+        contextMenu.add(0,0,getAdapterPosition(),"Delete");
     }
 }
 

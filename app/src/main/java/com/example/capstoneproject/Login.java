@@ -43,40 +43,41 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                customerTable.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        //Check whether or not username is exist in database
-                        if(snapshot.child(usernameText.getText().toString()).exists()) {
+                    customerTable.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            //Get customer information
-                            Customer customer = snapshot.child(usernameText.getText().toString()).getValue(Customer.class);
-                            customer.setCustID(usernameText.getText().toString());
+                            //Check whether or not username is exist in database
+                            if (snapshot.child(usernameText.getText().toString()).exists()) {
 
-                            if(customer.getCustPassword().equals(passwordText.getText().toString())) {
-                                Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                                Intent orderTypeIntent = new Intent(Login.this, OrderType.class);
-                                Common.currentUser = customer;
-                                startActivity(orderTypeIntent);
-                                finish();
+                                //Get customer information
+                                Customer customer = snapshot.child(usernameText.getText().toString()).getValue(Customer.class);
+                                customer.setCustID(usernameText.getText().toString());
+
+                                if (customer.getCustPassword().equals(passwordText.getText().toString())) {
+                                    Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                                    Intent orderTypeIntent = new Intent(Login.this, OrderType.class);
+                                    Common.currentUser = customer;
+                                    startActivity(orderTypeIntent);
+                                    finish();
+
+                                } else {
+                                    Toast.makeText(Login.this, "Password incorrect! Please try again!", Toast.LENGTH_SHORT).show();
+                                }
 
                             } else {
-                                Toast.makeText(Login.this, "Password incorrect! Please try again!", Toast.LENGTH_SHORT).show();
+
+                                Toast.makeText(Login.this, "User does not exist!", Toast.LENGTH_SHORT).show();
                             }
 
-                        } else {
-
-                            Toast.makeText(Login.this, "User does not exist!", Toast.LENGTH_SHORT).show();
                         }
 
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                        }
+                 });
             }
         });
     }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.capstoneproject.Common.Common;
 import com.example.capstoneproject.Model.Customer;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,31 +48,31 @@ public class Registration extends AppCompatActivity {
             public void onClick(View view) {
 
                 customerTable.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                        if (passwordText.getText().toString().equals(retypePasswordText.getText().toString())) {
-                            //Username already exist
-                            if (snapshot.child(usernameText.getText().toString()).exists()) {
-                                Toast.makeText(Registration.this, "Username already exist!", Toast.LENGTH_SHORT).show();
+                            if (passwordText.getText().toString().equals(retypePasswordText.getText().toString())) {
+                                //Username already exist
+                                if (snapshot.child(usernameText.getText().toString()).exists()) {
+                                    Toast.makeText(Registration.this, "Username already exist!", Toast.LENGTH_SHORT).show();
 
+                                } else {
+                                    Customer customer = new Customer(nameText.getText().toString(), passwordText.getText().toString(), telNoText.getText().toString());
+                                    customerTable.child(usernameText.getText().toString()).setValue(customer);
+                                    Toast.makeText(Registration.this, "Registration Successful! ", Toast.LENGTH_SHORT).show();
+                                    finish(); //close activity
+                                }
                             } else {
-                                Customer customer = new Customer(nameText.getText().toString(), passwordText.getText().toString(), telNoText.getText().toString());
-                                customerTable.child(usernameText.getText().toString()).setValue(customer);
-                                Toast.makeText(Registration.this, "Registration Successful! ", Toast.LENGTH_SHORT).show();
-                                finish(); //close activity
+                                Toast.makeText(Registration.this, "Both passwords must be the same!", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(Registration.this, "Both passwords must be the same!", Toast.LENGTH_SHORT).show();
+
                         }
 
-                    }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                        }
+                    });
 
             }
         });

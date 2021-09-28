@@ -1,5 +1,6 @@
 package com.example.capstoneproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -212,4 +214,25 @@ public class Cart extends AppCompatActivity {
         txtTotalPrice.setText(fmt.format(total));
     }
 
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if(item.getTitle().equals("Delete")) {
+            deleteCart(item.getOrder());
+        }
+        return true;
+    }
+
+    private void deleteCart(int position) {
+        //Remove item at List<Order> by position
+        cart.remove(position);
+
+        //Delete all data from SQLite
+        new Database(this).cleanCart();
+
+        //Update new data after deleting item to SQLite
+        for(CartDetail item: cart)
+            new Database(this).addToCart(item);
+
+        loadListFood();
+    }
 }

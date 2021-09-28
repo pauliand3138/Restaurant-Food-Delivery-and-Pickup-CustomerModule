@@ -160,4 +160,10 @@ public class Home extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    public void onBackPressed(){
+        Intent orderTypeIntent = new Intent(Home.this,OrderType.class);
+        startActivity(orderTypeIntent);
+        finish();
+    }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent login = new Intent(MainActivity.this, Login.class);
                 startActivity(login);
-
+                finish();
             }
         });
 
@@ -40,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent registration = new Intent(MainActivity.this, Registration.class);
                 startActivity(registration);
+                finish();
             }
         });
     }
+
+
 }
