@@ -77,6 +77,19 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
             orderIdValue = getIntent().getStringExtra("OrderId");
         }
 
+        ratings.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(orderIdValue).exists()) {
+                    rateOrderButton.setText("Change Rating");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         orderId.setText(String.format("Order ID:              ") + orderIdValue);
         orderPhone.setText(String.format("Contact No.            ") + Common.currentUser.getCustTelNo());
@@ -144,8 +157,6 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
             public void onClick(View view) {
                 if(!Common.currentOrder.getStatus().equals("3")) {
                     Toast.makeText(OrderDetail.this, "Only completed orders can be rated", Toast.LENGTH_SHORT).show();
-                } else if(rateOrderButton.getText().toString().equals("Order Rated")) {
-                    Toast.makeText(OrderDetail.this, "Order already has a rating!", Toast.LENGTH_SHORT).show();
                 } else {
                     showRatingDialog();
                 }
@@ -165,7 +176,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                 .setTitleTextColor(R.color.colorPrimary)
                 .setDescriptionTextColor(R.color.colorPrimary)
                 .setHint("Comment")
-                .setHintTextColor(R.color.colorAccent)
+                .setHintTextColor(R.color.white)
                 .setCommentTextColor(R.color.white)
                 .setCommentBackgroundColor(R.color.grey)
                 .setWindowAnimation(R.style.RatingDialogFadeAnim)
@@ -175,26 +186,46 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
 
     @Override
     public void onPositiveButtonClicked(int starValue, @NonNull String comment) {
-        Rating rating = new Rating(orderIdValue, String.valueOf(starValue), comment, Common.currentUser.getCustID());
 
-        //Rating table in Firebase
-        ratings.child(orderIdValue).addValueEventListener(new ValueEventListener() {
+
+        ratings.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ratings.child(orderIdValue).setValue(rating);
-
-                Toast.makeText(OrderDetail.this, "Thanks for your rating!", Toast.LENGTH_SHORT).show();
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(getIntent());
-                overridePendingTransition(0, 0);
+                if(snapshot.child(orderIdValue).exists()) {
+                    ratings.child(orderIdValue).child("rateStars").setValue(starValue);
+                    ratings.child(orderIdValue).child("rateComment").setValue(comment);
+                    Toast.makeText(OrderDetail.this,"Rating changed successfully!",Toast.LENGTH_SHORT).show();
+                } else {
+                    Rating rating = new Rating(orderIdValue, String.valueOf(starValue), comment, Common.currentUser.getCustID());
+                    ratings.child(orderIdValue).setValue(rating);
+                    Toast.makeText(OrderDetail.this, "Order rated successfully!", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });;
+        });
+
+//        //Rating table in Firebase
+//        ratings.child(orderIdValue).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                ratings.child(orderIdValue).setValue(rating);
+//
+//                Toast.makeText(OrderDetail.this, "Thanks for your rating!", Toast.LENGTH_SHORT).show();
+//                finish();
+//                overridePendingTransition(0, 0);
+//                startActivity(getIntent());
+//                overridePendingTransition(0, 0);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });;
     }
 
     @Override

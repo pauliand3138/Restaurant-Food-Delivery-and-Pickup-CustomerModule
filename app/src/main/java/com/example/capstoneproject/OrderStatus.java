@@ -82,7 +82,7 @@ public class OrderStatus extends AppCompatActivity {
         else if(status.equals("2"))
             return "Order prepared, waiting for pickup";
         else if(status.equals("3"))
-            return "Delivered";
+            return "Completed";
         else
             return "Cancelled";
     }
