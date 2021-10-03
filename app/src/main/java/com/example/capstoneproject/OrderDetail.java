@@ -1,5 +1,6 @@
 package com.example.capstoneproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,16 +13,28 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.disklrucache.DiskLruCache;
 import com.example.capstoneproject.Common.Common;
+import com.example.capstoneproject.Model.Rating;
 import com.example.capstoneproject.ViewHolder.OrderDetailAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.stepstone.apprating.AppRatingDialog;
+import com.stepstone.apprating.listener.RatingDialogListener;
 
 import org.w3c.dom.Text;
 
-public class OrderDetail extends AppCompatActivity {
+import java.util.Arrays;
+
+public class OrderDetail extends AppCompatActivity implements RatingDialogListener {
 
     Button cancelOrderButton;
+    Button rateOrderButton;
+
     TextView orderId;
     TextView orderPhone;
     TextView orderAddress;
@@ -29,15 +42,22 @@ public class OrderDetail extends AppCompatActivity {
     TextView orderRequest;
     TextView orderStatus;
     String orderIdValue = "";
+
     RecyclerView foodList;
     RecyclerView.LayoutManager layoutManager;
+
     FirebaseDatabase database;
     DatabaseReference orders;
+    DatabaseReference ratings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_detail);
+
+        database = FirebaseDatabase.getInstance("https://capstoneproject-c2dbe-default-rtdb.asia-southeast1.firebasedatabase.app");
+        orders = database.getReference("Order");
+        ratings = database.getReference("Rating");
 
         orderId = findViewById(R.id.order_id);
         orderPhone = findViewById(R.id.order_phone);
@@ -46,6 +66,7 @@ public class OrderDetail extends AppCompatActivity {
         orderRequest = findViewById(R.id.order_request);
         orderStatus = findViewById(R.id.order_status);
         cancelOrderButton = findViewById(R.id.cancelOrderButton);
+        rateOrderButton = findViewById(R.id.rateButton);
 
         foodList = findViewById(R.id.foodList);
         foodList.setHasFixedSize(true);
@@ -55,6 +76,7 @@ public class OrderDetail extends AppCompatActivity {
         if(getIntent() != null) {
             orderIdValue = getIntent().getStringExtra("OrderId");
         }
+
 
         orderId.setText(String.format("Order ID:              ") + orderIdValue);
         orderPhone.setText(String.format("Contact No.            ") + Common.currentUser.getCustTelNo());
@@ -74,8 +96,12 @@ public class OrderDetail extends AppCompatActivity {
 
                 if(Common.currentOrder.getStatus().equals("-1")) {
                     Toast.makeText(OrderDetail.this, "Order is already cancelled", Toast.LENGTH_SHORT).show();
-                } else if(!Common.currentOrder.getStatus().equals("0")) {
+                } else if(Common.currentOrder.getStatus().equals("1")) {
                     Toast.makeText(OrderDetail.this, "Order is preparing. Unable to cancel order", Toast.LENGTH_SHORT).show();
+                } else if(Common.currentOrder.getStatus().equals("2")) {
+                    Toast.makeText(OrderDetail.this, "Order is already prepared. Unable to cancel order", Toast.LENGTH_SHORT).show();
+                } else if(Common.currentOrder.getStatus().equals("3")) {
+                    Toast.makeText(OrderDetail.this, "Order already complete. Unable to cancel order", Toast.LENGTH_SHORT).show();
                 } else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderDetail.this);
                     alertDialog.setTitle("Cancel Confirmation!");
@@ -85,11 +111,6 @@ public class OrderDetail extends AppCompatActivity {
                     alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            if(!Common.currentOrder.getStatus().equals("0")) {
-                                Toast.makeText(OrderDetail.this, Common.currentOrder.getStatus(), Toast.LENGTH_SHORT).show();
-                            } else {
-                                database = FirebaseDatabase.getInstance("https://capstoneproject-c2dbe-default-rtdb.asia-southeast1.firebasedatabase.app");
-                                orders = database.getReference("Order");
                                 orders.child(orderIdValue).child("status").setValue("-1");
                                 Common.currentOrder.setStatus("-1");
                                 Toast.makeText(OrderDetail.this, "Order cancelled", Toast.LENGTH_SHORT).show();
@@ -100,7 +121,7 @@ public class OrderDetail extends AppCompatActivity {
                                 overridePendingTransition(0, 0);
                                 startActivity(getIntent());
                                 overridePendingTransition(0, 0);
-                            }
+
                         }
                     });
 
@@ -116,9 +137,72 @@ public class OrderDetail extends AppCompatActivity {
                 }
             }
         });
-        ;
+
+        rateOrderButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if(!Common.currentOrder.getStatus().equals("3")) {
+                    Toast.makeText(OrderDetail.this, "Only completed orders can be rated", Toast.LENGTH_SHORT).show();
+                } else if(rateOrderButton.getText().toString().equals("Order Rated")) {
+                    Toast.makeText(OrderDetail.this, "Order already has a rating!", Toast.LENGTH_SHORT).show();
+                } else {
+                    showRatingDialog();
+                }
+
+            }
+        });
+    }
+
+    private void showRatingDialog() {
+        new AppRatingDialog.Builder()
+                .setPositiveButtonText("Submit")
+                .setNegativeButtonText("Cancel")
+                .setNoteDescriptions(Arrays.asList("Very Bad","Needs Improvement","Moderate","Good","Excellent"))
+                .setDefaultRating(5)
+                .setTitle("Rate this order")
+                .setDescription("How's your order? We would like to have your honest feedback!")
+                .setTitleTextColor(R.color.colorPrimary)
+                .setDescriptionTextColor(R.color.colorPrimary)
+                .setHint("Comment")
+                .setHintTextColor(R.color.colorAccent)
+                .setCommentTextColor(R.color.white)
+                .setCommentBackgroundColor(R.color.grey)
+                .setWindowAnimation(R.style.RatingDialogFadeAnim)
+                .create(OrderDetail.this)
+                .show();
+    }
+
+    @Override
+    public void onPositiveButtonClicked(int starValue, @NonNull String comment) {
+        Rating rating = new Rating(orderIdValue, String.valueOf(starValue), comment, Common.currentUser.getCustID());
+
+        //Rating table in Firebase
+        ratings.child(orderIdValue).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ratings.child(orderIdValue).setValue(rating);
+
+                Toast.makeText(OrderDetail.this, "Thanks for your rating!", Toast.LENGTH_SHORT).show();
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });;
+    }
+
+    @Override
+    public void onNegativeButtonClicked() {
 
     }
+
+
 
     private String convertCodeToStatus(String status) {
         if(status.equals("0"))
@@ -128,8 +212,10 @@ public class OrderDetail extends AppCompatActivity {
         else if(status.equals("2"))
             return "Order prepared, waiting for pickup";
         else if(status.equals("3"))
-            return "Delivered";
+            return "Completed";
         else
             return "Cancelled";
     }
+
+
 }

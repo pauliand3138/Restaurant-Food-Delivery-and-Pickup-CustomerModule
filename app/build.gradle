@@ -68,4 +68,6 @@ dependencies {
 
     //searchbar library
     implementation 'com.github.mancj:MaterialSearchBar:0.7.1'
+
+    implementation 'com.stepstone.apprating:app-rating:2.0.0'
 }
