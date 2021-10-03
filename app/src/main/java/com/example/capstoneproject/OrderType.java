@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.capstoneproject.Common.Common;
-import com.example.capstoneproject.Model.DeliverOrDineIn;
+import com.example.capstoneproject.Model.DeliverOrPickup;
 
 public class OrderType extends AppCompatActivity {
 
@@ -29,7 +29,7 @@ public class OrderType extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                DeliverOrDineIn orderType = new DeliverOrDineIn("Delivery");
+                DeliverOrPickup orderType = new DeliverOrPickup("Delivery");
                 Intent homeIntent = new Intent(OrderType.this, Home.class);
                 Common.currentOrderType = orderType;
                 startActivity(homeIntent);
@@ -40,7 +40,7 @@ public class OrderType extends AppCompatActivity {
         dineInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DeliverOrDineIn orderType = new DeliverOrDineIn("Dine In");
+                DeliverOrPickup orderType = new DeliverOrPickup("Pickup");
                 Intent homeIntent = new Intent(OrderType.this, Home.class);
                 Common.currentOrderType = orderType;
                 startActivity(homeIntent);

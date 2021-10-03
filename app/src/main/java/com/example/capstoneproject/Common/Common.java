@@ -1,14 +1,12 @@
 package com.example.capstoneproject.Common;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-
 import com.example.capstoneproject.Model.Customer;
-import com.example.capstoneproject.Model.DeliverOrDineIn;
+import com.example.capstoneproject.Model.DeliverOrPickup;
+import com.example.capstoneproject.Model.Order;
 
 public class Common {
 
     public static Customer currentUser;
-    public static DeliverOrDineIn currentOrderType;
+    public static DeliverOrPickup currentOrderType;
+    public static Order currentOrder;
 }

@@ -8,21 +8,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.capstoneproject.Common.Common;
 import com.example.capstoneproject.Model.CartDetail;
-import com.example.capstoneproject.Model.DeliverOrDineIn;
 import com.example.capstoneproject.Model.Order;
 import com.example.capstoneproject.ViewHolder.CartAdapter;
 import com.example.capstoneproject.database.Database;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -89,14 +88,15 @@ public class Cart extends AppCompatActivity {
                 alertDialog.setTitle("One more step!");
                 alertDialog.setMessage("Enter your address: ");
 
-                //create editText to allow users to enter their address
-                final EditText addressText = new EditText(Cart.this);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT
-                );
-                addressText.setLayoutParams(lp);
-                alertDialog.setView(addressText); //Add addressText  to alert dialog
+                LayoutInflater inflater = this.getLayoutInflater();
+                View order_address_alertdialog = inflater.inflate(R.layout.order_address_alertdialog,null);
+
+                MaterialEditText addressText = order_address_alertdialog.findViewById(R.id.addressText);
+                MaterialEditText requestText = order_address_alertdialog.findViewById(R.id.requestText);
+                MaterialEditText telNoText = order_address_alertdialog.findViewById(R.id.telNoText);
+                telNoText.setText(Common.currentUser.getCustTelNo());
+
+                alertDialog.setView(order_address_alertdialog);
                 alertDialog.setIcon(R.drawable.ic_baseline_shopping_cart_24);
 
                 alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -110,11 +110,11 @@ public class Cart extends AppCompatActivity {
                         } else {
                             Order order = new Order(
                                     Common.currentUser.getCustID(),
-                                    Common.currentUser.getCustTelNo(),
-                                    Common.currentUser.getCustName(),
+                                    telNoText.getText().toString(),
                                     addressText.getText().toString(),
                                     Common.currentOrderType.getOrderType(),
                                     txtTotalPrice.getText().toString(),
+                                    requestText.getText().toString(),
                                     cart
                             );
 
@@ -152,6 +152,14 @@ public class Cart extends AppCompatActivity {
                 alertDialog.setMessage("You will need to pickup your order from our restaurant at:\n\n" +
                         "1-Z, Lebuh Bukit Jambul,\nBukit Jambul,\n11900 Bayan Lepas,\nPulau Pinang");
 
+                LayoutInflater inflater = this.getLayoutInflater();
+                View order_request_alertdialog = inflater.inflate(R.layout.order_request_alertdialog,null);
+
+                MaterialEditText requestText = order_request_alertdialog.findViewById(R.id.requestText);
+                MaterialEditText telNoText = order_request_alertdialog.findViewById(R.id.telNoText);
+                telNoText.setText(Common.currentUser.getCustTelNo());
+
+                alertDialog.setView(order_request_alertdialog);
                 alertDialog.setIcon(R.drawable.ic_baseline_shopping_cart_24);
 
                 alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -159,11 +167,11 @@ public class Cart extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Order order = new Order(
                                 Common.currentUser.getCustID(),
-                                Common.currentUser.getCustTelNo(),
-                                Common.currentUser.getCustName(),
-                                "NULL",
+                                telNoText.getText().toString(),
+                                "Self-Collect Order",
                                 Common.currentOrderType.getOrderType(),
                                 txtTotalPrice.getText().toString(),
+                                requestText.getText().toString(),
                                 cart
                         );
 

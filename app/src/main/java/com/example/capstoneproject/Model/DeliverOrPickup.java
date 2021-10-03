@@ -1,12 +1,12 @@
 package com.example.capstoneproject.Model;
 
-public class DeliverOrDineIn {
+public class DeliverOrPickup {
     private String orderType;
 
-    public DeliverOrDineIn() {
+    public DeliverOrPickup() {
 
     }
-    public DeliverOrDineIn(String orderType) {
+    public DeliverOrPickup(String orderType) {
         this.orderType = orderType;
     }
 

@@ -4,24 +4,24 @@ import java.util.List;
 
 public class Order {
     private String custID;
-    private String custTelNo;
-    private String custName;
+    private String orderTelNo;
     private String orderAddress;
     private String orderType;
     private String orderPrice;
     private String status;
+    private String orderRequest;
     private List<CartDetail> foods; //List of food order
 
     public Order() {
     }
 
-    public Order(String custID, String custTelNo, String custName, String orderAddress, String orderType, String orderPrice, List<CartDetail> foods) {
+    public Order(String custID, String orderTelNo, String orderAddress, String orderType, String orderPrice, String orderRequest, List<CartDetail> foods) {
         this.custID = custID;
-        this.custTelNo = custTelNo;
-        this.custName = custName;
+        this.orderTelNo = orderTelNo;
         this.orderAddress = orderAddress;
         this.orderType = orderType;
         this.orderPrice = orderPrice;
+        this.orderRequest = orderRequest;
         this.foods = foods;
         this.status = "0"; //Default is 0, 0: Placed, 1: Delivering, 2: Delivered
     }
@@ -38,20 +38,12 @@ public class Order {
         this.custID = custID;
     }
 
-    public String getCustTelNo() {
-        return custTelNo;
+    public String getOrderTelNo() {
+        return orderTelNo;
     }
 
-    public void setCustTelNo(String custTelNo) {
-        this.custTelNo = custTelNo;
-    }
-
-    public String getCustName() {
-        return custName;
-    }
-
-    public void setCustName(String custName) {
-        this.custName = custName;
+    public void setOrderTelNo(String orderTelNo) {
+        this.orderTelNo = orderTelNo;
     }
 
     public String getOrderAddress() {
@@ -78,6 +70,18 @@ public class Order {
         this.orderPrice = orderPrice;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getOrderRequest() {
+        return orderRequest;
+    }
+
+    public void setOrderRequest(String orderRequest) {
+        this.orderRequest = orderRequest;
+    }
+
     public List<CartDetail> getFoods() {
         return foods;
     }
@@ -85,4 +89,6 @@ public class Order {
     public void setFoods(List<CartDetail> foods) {
         this.foods = foods;
     }
+
+
 }
