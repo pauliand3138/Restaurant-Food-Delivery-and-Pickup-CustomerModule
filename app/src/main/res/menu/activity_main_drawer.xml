@@ -19,10 +19,24 @@
             android:icon="@drawable/ic_baseline_access_time_24"
             android:iconTint="@color/white"
             android:title="Orders" />
+
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:iconTint="@color/white"
+            android:title="Profile"/>
+
+        <item
+            android:id="@+id/nav_ratings"
+            android:icon="@drawable/ic_baseline_star_24"
+            android:iconTint="@color/white"
+            android:title="Our Ratings"/>
+
         <item
             android:id="@+id/nav_log_out"
             android:icon="@drawable/ic_baseline_exit_to_app_24"
             android:iconTint="@color/white"
             android:title="Logout" />
     </group>
+
 </menu>

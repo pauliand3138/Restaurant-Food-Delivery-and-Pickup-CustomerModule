@@ -7,12 +7,12 @@
     tools:context=".FoodList">
 
     <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/search_bar"
         android:layout_alignParentTop="true"
-        app:mt_speechMode="false"
-        app:mt_hint="Search Food" />
+        app:mt_hint="Search Food"
+        app:mt_speechMode="false" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_food"

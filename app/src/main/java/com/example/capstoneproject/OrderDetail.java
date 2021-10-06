@@ -192,7 +192,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.child(orderIdValue).exists()) {
-                    ratings.child(orderIdValue).child("rateStars").setValue(starValue);
+                    ratings.child(orderIdValue).child("rateStars").setValue(String.valueOf(starValue));
                     ratings.child(orderIdValue).child("rateComment").setValue(comment);
                     Toast.makeText(OrderDetail.this,"Rating changed successfully!",Toast.LENGTH_SHORT).show();
                 } else {

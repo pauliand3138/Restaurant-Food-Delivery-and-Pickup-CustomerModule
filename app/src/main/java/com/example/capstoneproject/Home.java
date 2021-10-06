@@ -102,6 +102,12 @@ public class Home extends AppCompatActivity {
                     Intent logIn = new Intent(Home.this,Login.class);
                     logIn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(logIn);
+                } else if(id == R.id.nav_ratings){
+                    Intent ratingList = new Intent(Home.this, RatingList.class);
+                    startActivity(ratingList);
+                } else if(id == R.id.nav_profile){
+                    Intent profile = new Intent(Home.this, Profile.class);
+                    startActivity(profile);
                 }
                 return false;
             }

@@ -231,7 +231,7 @@ public class Cart extends AppCompatActivity {
     }
 
     private void deleteCart(int position) {
-        //Remove item at List<Order> by position
+        //Remove item at List<CartDetail> by position
         cart.remove(position);
 
         //Delete all data from SQLite
