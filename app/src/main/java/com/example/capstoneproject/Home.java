@@ -54,6 +54,7 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -171,5 +172,15 @@ public class Home extends AppCompatActivity {
         Intent orderTypeIntent = new Intent(Home.this,OrderType.class);
         startActivity(orderTypeIntent);
         finish();
+    }
+
+    //Refresh customer name after applying changes in Profile page
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 }

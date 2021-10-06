@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.capstoneproject.Common.Common;
 import com.example.capstoneproject.Interface.ItemClickListener;
@@ -42,6 +43,7 @@ public class OrderStatus extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         loadOrders(Common.currentUser.getCustID());
+        adapter.notifyDataSetChanged();
 
     }
 
@@ -86,4 +88,6 @@ public class OrderStatus extends AppCompatActivity {
         else
             return "Cancelled";
     }
+
+
 }

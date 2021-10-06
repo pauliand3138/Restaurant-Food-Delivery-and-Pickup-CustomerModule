@@ -208,24 +208,6 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
             }
         });
 
-//        //Rating table in Firebase
-//        ratings.child(orderIdValue).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                ratings.child(orderIdValue).setValue(rating);
-//
-//                Toast.makeText(OrderDetail.this, "Thanks for your rating!", Toast.LENGTH_SHORT).show();
-//                finish();
-//                overridePendingTransition(0, 0);
-//                startActivity(getIntent());
-//                overridePendingTransition(0, 0);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });;
     }
 
     @Override
