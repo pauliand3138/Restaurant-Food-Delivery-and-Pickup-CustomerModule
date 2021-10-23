@@ -22,6 +22,7 @@ public class RatingList extends AppCompatActivity {
     TextView ratingId;
     TextView ratingCustId;
     TextView ratingComment;
+    TextView ratingFood;
     ImageView ratingStars;
 
     RecyclerView recyclerView;
@@ -40,6 +41,7 @@ public class RatingList extends AppCompatActivity {
         ratingCustId = findViewById(R.id.rating_custId);
         ratingComment = findViewById(R.id.rating_comment);
         ratingStars = findViewById(R.id.rating_image);
+        ratingFood = findViewById(R.id.rating_food);
 
         database = FirebaseDatabase.getInstance("https://capstoneproject-c2dbe-default-rtdb.asia-southeast1.firebasedatabase.app");
         ratings = database.getReference("Rating");
@@ -60,7 +62,8 @@ public class RatingList extends AppCompatActivity {
             protected void populateViewHolder(RatingViewHolder ratingViewHolder, Rating rating, int i) {
                 ratingViewHolder.ratingId.setText(String.format("Rating #") + adapter.getRef(i).getKey());
                 ratingViewHolder.ratingCustId.setText(String.format("Customer ID: ") + rating.getCustID());
-                ratingViewHolder.ratingComment.setText(String.format("Comment:       ") + rating.getRateComment());
+                ratingViewHolder.ratingComment.setText(String.format("Comment:     ") + rating.getRateComment());
+                ratingViewHolder.ratingFood.setText   (String.format("Order:             ") + rating.getFoodsInRating());
 
                 int rateStarValue = Integer.parseInt(rating.getRateStars());
 

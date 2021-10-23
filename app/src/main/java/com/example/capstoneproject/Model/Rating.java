@@ -5,15 +5,17 @@ public class Rating {
     private String rateStars;
     private String rateComment;
     private String custID;
+    private String foodsInRating;
 
     public Rating() {
     }
 
-    public Rating(String orderID, String rateStars, String rateComment, String custID) {
+    public Rating(String orderID, String rateStars, String rateComment, String custID, String foodsInRate) {
         this.orderID = orderID;
         this.rateStars = rateStars;
         this.rateComment = rateComment;
         this.custID = custID;
+        this.foodsInRating = foodsInRate;
     }
 
     public String getOrderID() {
@@ -46,5 +48,13 @@ public class Rating {
 
     public void setCustID(String custID) {
         this.custID = custID;
+    }
+
+    public String getFoodsInRating() {
+        return foodsInRating;
+    }
+
+    public void setFoodsInRating(String foodsInRating) {
+        this.foodsInRating = foodsInRating;
     }
 }

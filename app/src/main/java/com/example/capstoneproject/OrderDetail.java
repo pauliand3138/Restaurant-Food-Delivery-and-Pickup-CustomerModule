@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
     TextView orderRequest;
     TextView orderStatus;
     String orderIdValue = "";
-
+    String orderedFoods = "";
     RecyclerView foodList;
     RecyclerView.LayoutManager layoutManager;
 
@@ -81,7 +82,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.child(orderIdValue).exists()) {
-                    rateOrderButton.setText("Change Rating");
+                    rateOrderButton.setText("Order Rated");
                 }
             }
 
@@ -101,6 +102,8 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
         OrderDetailAdapter adapter = new OrderDetailAdapter(Common.currentOrder.getFoods());
         adapter.notifyDataSetChanged();
         foodList.setAdapter(adapter);
+        orderedFoods = TextUtils.join(", ", adapter.getFoodsName());
+        //Toast.makeText(OrderDetail.this, orderedFoods, Toast.LENGTH_SHORT).show();
 
         cancelOrderButton.setOnClickListener(new View.OnClickListener() {
 
@@ -157,6 +160,8 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
             public void onClick(View view) {
                 if(!Common.currentOrder.getStatus().equals("3")) {
                     Toast.makeText(OrderDetail.this, "Only completed orders can be rated", Toast.LENGTH_SHORT).show();
+                } else if (rateOrderButton.getText().equals("Order Rated")) {
+                    Toast.makeText(OrderDetail.this,"Order already has a rating!",Toast.LENGTH_SHORT).show();
                 } else {
                     showRatingDialog();
                 }
@@ -187,19 +192,17 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
     @Override
     public void onPositiveButtonClicked(int starValue, @NonNull String comment) {
 
+        StringBuilder builder = new StringBuilder(Common.currentUser.getCustID());
+        String repeat = new String(new char[builder.length()-4]).replace("\0","*");
+        builder.replace(4,builder.length(),repeat);
 
         ratings.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child(orderIdValue).exists()) {
-                    ratings.child(orderIdValue).child("rateStars").setValue(String.valueOf(starValue));
-                    ratings.child(orderIdValue).child("rateComment").setValue(comment);
-                    Toast.makeText(OrderDetail.this,"Rating changed successfully!",Toast.LENGTH_SHORT).show();
-                } else {
-                    Rating rating = new Rating(orderIdValue, String.valueOf(starValue), comment, Common.currentUser.getCustID());
-                    ratings.child(orderIdValue).setValue(rating);
-                    Toast.makeText(OrderDetail.this, "Order rated successfully!", Toast.LENGTH_SHORT).show();
-                }
+                Rating rating = new Rating(orderIdValue, String.valueOf(starValue), comment.trim(), builder.toString(), orderedFoods);
+                ratings.child(orderIdValue).setValue(rating);
+                Toast.makeText(OrderDetail.this, "Order rated successfully!", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

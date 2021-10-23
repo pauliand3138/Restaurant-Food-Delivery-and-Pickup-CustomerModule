@@ -36,7 +36,7 @@
                 android:id="@+id/rating_image"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="30dp"
                 android:src="@drawable/onestar"
                 />
 
@@ -45,8 +45,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center_vertical|start"
-                android:textStyle="bold"
-                android:textSize="15sp"
+
                 android:text="Customer ID: paul020211"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -58,7 +57,19 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center_vertical|start"
                 android:text="Comment: Nice!"
+                android:textStyle="bold"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/rating_food"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical|start"
+                android:text="Foods Ordered: Rice"
+                android:textAlignment="gravity"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>

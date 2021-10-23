@@ -13,6 +13,7 @@ import com.example.capstoneproject.Model.CartDetail;
 import com.example.capstoneproject.OrderDetail;
 import com.example.capstoneproject.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class MyViewHolder extends RecyclerView.ViewHolder {
@@ -33,8 +34,20 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     List<CartDetail> foods;
 
+    List<String> foodName = new ArrayList<>();
+
     public OrderDetailAdapter(List<CartDetail> foods) {
         this.foods = foods;
+
+        for(int i=0; i < foods.size(); i++) {
+            if(!foodName.contains(foods.get(i).getFoodName()) && foodName.size() < 2) {
+                if (foodName.size() == 1 && foods.size() > 2) {
+                    foodName.add(foods.get(i).getFoodName() + " etc.");
+                } else {
+                    foodName.add(foods.get(i).getFoodName());
+                }
+            }
+        }
     }
 
     @NonNull
@@ -48,10 +61,15 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         CartDetail foodList = foods.get(position);
+        //foodName.add(foodList.getFoodName());
         holder.foodName.setText    (String.format("Name:      %s",foodList.getFoodName()));
         holder.foodQuantity.setText(String.format("Quantity:  %s",foodList.getQuantity()));
         holder.foodPrice.setText   (String.format("Price:        RM%s",foodList.getFoodPrice()));
 
+    }
+
+    public List<String> getFoodsName() {
+        return foodName;
     }
 
     @Override
