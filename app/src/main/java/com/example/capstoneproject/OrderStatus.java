@@ -21,7 +21,6 @@ public class OrderStatus extends AppCompatActivity {
 
 
     public RecyclerView recyclerView;
-    public RecyclerView.LayoutManager layoutManager;
 
     FirebaseRecyclerAdapter<Order,OrderViewHolder> adapter;
 
@@ -39,8 +38,10 @@ public class OrderStatus extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.listOrders);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         loadOrders(Common.currentUser.getCustID());
         adapter.notifyDataSetChanged();

@@ -25,7 +25,6 @@ public class RatingList extends AppCompatActivity {
     ImageView ratingStars;
 
     RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
 
     FirebaseDatabase database;
     DatabaseReference ratings;
@@ -47,8 +46,10 @@ public class RatingList extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.listRatings);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         loadRatings();
     }
