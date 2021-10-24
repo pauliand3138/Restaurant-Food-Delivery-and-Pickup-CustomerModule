@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.capstoneproject.Common.Common;
@@ -22,6 +23,10 @@ import com.google.firebase.firestore.CollectionReference;
 
 public class OrderStatus extends AppCompatActivity {
 
+    Button allFilterButton;
+    Button activeFilterButton;
+    Button completedFilterButton;
+    Button cancelledFilterButton;
 
     public RecyclerView recyclerView;
 
@@ -30,7 +35,7 @@ public class OrderStatus extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference orders;
 
-    String selectedFilter = "all";
+    String selectedFilter = Common.currentUser.getCustID();
 
     Query collectionReference;
 
@@ -53,15 +58,29 @@ public class OrderStatus extends AppCompatActivity {
         loadOrders(Common.currentUser.getCustID());
         adapter.notifyDataSetChanged();
 
+        allFilterButton = findViewById(R.id.allFilterButton);
+        activeFilterButton = findViewById(R.id.activeFilterButton);
+        completedFilterButton = findViewById(R.id.completedFilterButton);
+        cancelledFilterButton = findViewById(R.id.cancelledFilterButton);
 
+        allFilterButton.setBackgroundColor(Color.parseColor("#15BCFF"));
     }
 
-    private void loadOrders(String phone) {
+    private void loadOrders(String filterSelected) {
+        Query helloQuery;
+
+        if( filterSelected.equals(Common.currentUser.getCustID())) {
+            helloQuery = orders.orderByChild("custID").equalTo(Common.currentUser.getCustID());
+        } else {
+            helloQuery = orders.orderByChild("custIDStatusFilter").equalTo(filterSelected);
+        }
+
+
         adapter = new FirebaseRecyclerAdapter<Order, OrderViewHolder>(
                 Order.class,
                 R.layout.order_layout,
                 OrderViewHolder.class,
-                orders.orderByChild("custID").equalTo(Common.currentUser.getCustID())
+                helloQuery
         ) {
             @Override
             protected void populateViewHolder(OrderViewHolder orderViewHolder, Order order, int i) {
@@ -74,6 +93,8 @@ public class OrderStatus extends AppCompatActivity {
                 if(convertCodeToStatus(order.getStatus()).equals("Placed")) {
                     orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#29B438"));
                 } else if ((convertCodeToStatus(order.getStatus()).equals("Delivering")) || (convertCodeToStatus(order.getStatus()).equals("Ready to Pickup"))) {
+                    orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#FF7800"));
+                } else if (convertCodeToStatus(order.getStatus()).equals("Preparing")) {
                     orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#EAA825"));
                 } else if (convertCodeToStatus(order.getStatus()).equals("Completed")) {
                     orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#EE1010"));
@@ -110,20 +131,43 @@ public class OrderStatus extends AppCompatActivity {
             return "Cancelled";
     }
 
-    private void filterList(String status) {
-        selectedFilter = status;
-
-    }
 
     public void allFilterTapped(View view) {
+        selectedFilter = Common.currentUser.getCustID();
+        allFilterButton.setBackgroundColor(Color.parseColor("#15BCFF"));
+        activeFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+        completedFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+        cancelledFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+
+        loadOrders(selectedFilter);
     }
 
-    public void processingFilterTapped(View view) {
+    public void activeFilterTapped(View view) {
+        selectedFilter = Common.currentUser.getCustID() + "0";
+        allFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+        activeFilterButton.setBackgroundColor(Color.parseColor("#15BCFF"));
+        completedFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+        cancelledFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+        loadOrders(selectedFilter);
     }
 
     public void completedFilterTapped(View view) {
+        selectedFilter = Common.currentUser.getCustID() + "4";
+        allFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+        activeFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+        completedFilterButton.setBackgroundColor(Color.parseColor("#15BCFF"));
+        cancelledFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+        loadOrders(selectedFilter);
     }
 
     public void cancelledFilterTapped(View view) {
+        selectedFilter = Common.currentUser.getCustID() + "-1";
+        allFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+        activeFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+        completedFilterButton.setBackgroundColor(Color.parseColor("#125DDF"));
+        cancelledFilterButton.setBackgroundColor(Color.parseColor("#15BCFF"));
+        loadOrders(selectedFilter);
     }
+
+
 }
