@@ -224,10 +224,12 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
         if(status.equals("0"))
             return "Placed";
         else if(status.equals("1"))
-            return "On my way";
+            return "Preparing";
         else if(status.equals("2"))
-            return "Order prepared, waiting for pickup";
+            return "Delivering";
         else if(status.equals("3"))
+            return "Ready to Pickup";
+        else if(status.equals("4"))
             return "Completed";
         else
             return "Cancelled";

@@ -99,10 +99,12 @@ public class OrderStatus extends AppCompatActivity {
         if(status.equals("0"))
             return "Placed";
         else if(status.equals("1"))
-            return "Delivering";
+            return "Preparing";
         else if(status.equals("2"))
-            return "Ready to Pickup";
+            return "Delivering";
         else if(status.equals("3"))
+            return "Ready to Pickup";
+        else if(status.equals("4"))
             return "Completed";
         else
             return "Cancelled";

@@ -11,6 +11,7 @@ public class Order {
     private String status;
     private String orderRequest;
     private List<CartDetail> foods; //List of food order
+    private String custIDStatusFilter;
 
     public Order() {
     }
@@ -24,6 +25,7 @@ public class Order {
         this.orderRequest = orderRequest;
         this.foods = foods;
         this.status = "0"; //Default is 0, 0: Placed, 1: Delivering, 2: Delivered
+        this.custIDStatusFilter = custID + this.status;
     }
 
     public String getStatus() {
@@ -90,5 +92,11 @@ public class Order {
         this.foods = foods;
     }
 
+    public String getCustIDStatusFilter() {
+        return custIDStatusFilter;
+    }
 
+    public void setCustIDStatusFilter(String custIDStatusFilter) {
+        this.custIDStatusFilter = custIDStatusFilter;
+    }
 }
