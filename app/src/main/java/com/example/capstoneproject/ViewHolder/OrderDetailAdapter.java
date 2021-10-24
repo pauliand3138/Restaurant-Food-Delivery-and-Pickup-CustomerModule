@@ -62,9 +62,9 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         CartDetail foodList = foods.get(position);
         //foodName.add(foodList.getFoodName());
-        holder.foodName.setText    (String.format("Name:      %s",foodList.getFoodName()));
-        holder.foodQuantity.setText(String.format("Quantity:  %s",foodList.getQuantity()));
-        holder.foodPrice.setText   (String.format("Price:        RM%s",foodList.getFoodPrice()));
+        holder.foodName.setText    (String.format(foodList.getFoodName()));
+        holder.foodQuantity.setText(String.format("%sx",foodList.getQuantity()));
+        holder.foodPrice.setText   (String.format("RM %s",foodList.getFoodPrice()));
 
     }
 
