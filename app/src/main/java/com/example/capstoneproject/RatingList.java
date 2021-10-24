@@ -37,7 +37,6 @@ public class RatingList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
 
-        ratingId = findViewById(R.id.rating_id);
         ratingCustId = findViewById(R.id.rating_custId);
         ratingComment = findViewById(R.id.rating_comment);
         ratingStars = findViewById(R.id.rating_image);
@@ -60,10 +59,10 @@ public class RatingList extends AppCompatActivity {
         adapter = new FirebaseRecyclerAdapter<Rating, RatingViewHolder>(Rating.class, R.layout.rating_layout, RatingViewHolder.class, ratings) {
             @Override
             protected void populateViewHolder(RatingViewHolder ratingViewHolder, Rating rating, int i) {
-                ratingViewHolder.ratingId.setText(String.format("Rating #") + adapter.getRef(i).getKey());
-                ratingViewHolder.ratingCustId.setText(String.format("Customer ID: ") + rating.getCustID());
-                ratingViewHolder.ratingComment.setText(String.format("Comment:     ") + rating.getRateComment());
-                ratingViewHolder.ratingFood.setText   (String.format("Order:             ") + rating.getFoodsInRating());
+               //ratingViewHolder.ratingId.setText(String.format("Rating #") + adapter.getRef(i).getKey());
+                ratingViewHolder.ratingCustId.setText(rating.getCustID());
+                ratingViewHolder.ratingComment.setText(rating.getRateComment());
+                ratingViewHolder.ratingFood.setText   (rating.getFoodsInRating());
 
                 int rateStarValue = Integer.parseInt(rating.getRateStars());
 

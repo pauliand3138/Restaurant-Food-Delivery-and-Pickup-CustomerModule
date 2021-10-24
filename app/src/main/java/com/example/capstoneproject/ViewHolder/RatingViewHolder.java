@@ -19,7 +19,6 @@ public class RatingViewHolder extends RecyclerView.ViewHolder{
 
     public RatingViewHolder(@NonNull View itemView) {
         super(itemView);
-        ratingId = itemView.findViewById(R.id.rating_id);
         ratingCustId = itemView.findViewById(R.id.rating_custId);
         ratingComment = itemView.findViewById(R.id.rating_comment);
         ratingStars = itemView.findViewById(R.id.rating_image);
