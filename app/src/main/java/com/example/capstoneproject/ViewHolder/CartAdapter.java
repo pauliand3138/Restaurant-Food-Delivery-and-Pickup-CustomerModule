@@ -78,7 +78,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder>{
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         //TextDrawable library is used to display quantity selected for a certain food that user picked
         TextDrawable drawable = TextDrawable.builder().beginConfig().fontSize(50).endConfig()
-                .buildRound(""+listData.get(position).getQuantity()+"x", Color.parseColor("#0A5061"));
+                .buildRound(""+listData.get(position).getQuantity()+"x", Color.parseColor("#2B77ED"));
 
         //Set the foodQuantity value in the cardview holder in cart_layout.xml
         holder.foodQuantity.setImageDrawable(drawable);

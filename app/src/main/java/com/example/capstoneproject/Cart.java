@@ -215,11 +215,8 @@ public class Cart extends AppCompatActivity {
 
             total += price * quantity;
         }
-        Locale locale = new Locale("en", "MY");
-        //Get currency RM
-        NumberFormat fmt = NumberFormat.getCurrencyInstance(locale);
 
-        txtTotalPrice.setText(fmt.format(total));
+        txtTotalPrice.setText("RM " + String.format("%.2f",total));
     }
 
     @Override
