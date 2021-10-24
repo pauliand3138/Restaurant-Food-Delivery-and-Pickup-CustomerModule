@@ -40,7 +40,7 @@ public class OrderType extends AppCompatActivity {
         dineInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DeliverOrPickup orderType = new DeliverOrPickup("Pickup");
+                DeliverOrPickup orderType = new DeliverOrPickup("Self-Collect");
                 Intent homeIntent = new Intent(OrderType.this, Home.class);
                 Common.currentOrderType = orderType;
                 startActivity(homeIntent);

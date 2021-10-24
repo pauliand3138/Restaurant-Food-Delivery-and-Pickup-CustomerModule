@@ -11,17 +11,18 @@ import com.example.capstoneproject.R;
 
 public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    public TextView txtOrderId,txtOrderStatus,txtOrderPhone,txtOrderAddress;
+    public TextView txtOrderId,txtOrderStatus,txtOrderDate,txtOrderPrice,txtOrderType;
 
     private ItemClickListener itemClickListener;
 
     public OrderViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        txtOrderAddress = itemView.findViewById(R.id.order_address);
+        txtOrderDate = itemView.findViewById(R.id.order_time);
         txtOrderId = itemView.findViewById(R.id.order_id);
         txtOrderStatus = itemView.findViewById(R.id.order_status);
-        txtOrderPhone = itemView.findViewById(R.id.order_phone);
+        txtOrderType = itemView.findViewById(R.id.order_type);
+        txtOrderPrice = itemView.findViewById(R.id.order_price);
 
         itemView.setOnClickListener(this);
     }

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -16,6 +17,8 @@ import com.example.capstoneproject.ViewHolder.OrderViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.firestore.CollectionReference;
 
 public class OrderStatus extends AppCompatActivity {
 
@@ -26,6 +29,10 @@ public class OrderStatus extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference orders;
+
+    String selectedFilter = "all";
+
+    Query collectionReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,7 @@ public class OrderStatus extends AppCompatActivity {
         loadOrders(Common.currentUser.getCustID());
         adapter.notifyDataSetChanged();
 
+
     }
 
     private void loadOrders(String phone) {
@@ -53,15 +61,25 @@ public class OrderStatus extends AppCompatActivity {
                 Order.class,
                 R.layout.order_layout,
                 OrderViewHolder.class,
-                orders.orderByChild("custID")
-                        .equalTo(phone)
+                orders.orderByChild("custID").equalTo(Common.currentUser.getCustID())
         ) {
             @Override
             protected void populateViewHolder(OrderViewHolder orderViewHolder, Order order, int i) {
-                orderViewHolder.txtOrderId.setText(String.format("Order ID:       ")+ adapter.getRef(i).getKey());
-                orderViewHolder.txtOrderStatus.setText(String.format("Order Status:   ") + convertCodeToStatus(order.getStatus()));
-                orderViewHolder.txtOrderAddress.setText(String.format("Address:          ") + order.getOrderAddress());
-                orderViewHolder.txtOrderPhone.setText(String.format("Contact No.     ") + order.getOrderTelNo());
+                orderViewHolder.txtOrderId.setText(String.format("Order # ")+ adapter.getRef(i).getKey());
+                orderViewHolder.txtOrderStatus.setText(convertCodeToStatus(order.getStatus()));
+                orderViewHolder.txtOrderPrice.setText(order.getOrderPrice());
+                orderViewHolder.txtOrderType.setText(String.format("Order Type: ") + order.getOrderType());
+                orderViewHolder.txtOrderDate.setText(Common.getDate(Long.parseLong(adapter.getRef(i).getKey())));
+
+                if(convertCodeToStatus(order.getStatus()).equals("Placed")) {
+                    orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#29B438"));
+                } else if ((convertCodeToStatus(order.getStatus()).equals("Delivering")) || (convertCodeToStatus(order.getStatus()).equals("Ready to Pickup"))) {
+                    orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#EAA825"));
+                } else if (convertCodeToStatus(order.getStatus()).equals("Completed")) {
+                    orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#EE1010"));
+                } else {
+                    orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#080808"));
+                }
 
                 orderViewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
@@ -81,14 +99,29 @@ public class OrderStatus extends AppCompatActivity {
         if(status.equals("0"))
             return "Placed";
         else if(status.equals("1"))
-            return "On my way";
+            return "Delivering";
         else if(status.equals("2"))
-            return "Order prepared, waiting for pickup";
+            return "Ready to Pickup";
         else if(status.equals("3"))
             return "Completed";
         else
             return "Cancelled";
     }
 
+    private void filterList(String status) {
+        selectedFilter = status;
 
+    }
+
+    public void allFilterTapped(View view) {
+    }
+
+    public void processingFilterTapped(View view) {
+    }
+
+    public void completedFilterTapped(View view) {
+    }
+
+    public void cancelledFilterTapped(View view) {
+    }
 }
