@@ -45,6 +45,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
     TextView orderRequest;
     TextView orderStatus;
     ImageView statusImage;
+    TextView orderSchedule;
     String orderIdValue = "";
     String orderedFoods = "";
     RecyclerView foodList;
@@ -73,6 +74,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
         cancelOrderButton = findViewById(R.id.cancelOrderButton);
         rateOrderButton = findViewById(R.id.rateButton);
         statusImage = findViewById(R.id.status_image);
+        orderSchedule = findViewById(R.id.order_schedule);
         foodList = findViewById(R.id.foodList);
         foodList.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
@@ -100,6 +102,11 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
         orderPhone.setText(Common.currentUser.getCustTelNo());
         orderTime.setText(Common.getDate(Long.parseLong(orderIdValue)));
         orderAddress.setText(Common.currentOrder.getOrderAddress());
+        if(Common.currentOrder.getScheduledTime().equals("")) {
+            orderSchedule.setText("Now");
+        } else {
+            orderSchedule.setText(Common.currentOrder.getScheduledTime());
+        }
         orderTotal.setText(Common.currentOrder.getOrderPrice());
         if (Common.currentOrder.getOrderRequest().equals("")) {
             orderRequest.setText("None");
@@ -134,11 +141,11 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                 if(Common.currentOrder.getStatus().equals("-1")) {
                     Toast.makeText(OrderDetail.this, "Order is already cancelled", Toast.LENGTH_SHORT).show();
                 } else if(Common.currentOrder.getStatus().equals("1")) {
-                    Toast.makeText(OrderDetail.this, "Order is preparing. Unable to cancel order", Toast.LENGTH_SHORT).show();
-                } else if(Common.currentOrder.getStatus().equals("2")) {
-                    Toast.makeText(OrderDetail.this, "Order is already prepared. Unable to cancel order", Toast.LENGTH_SHORT).show();
-                } else if(Common.currentOrder.getStatus().equals("3")) {
-                    Toast.makeText(OrderDetail.this, "Order already complete. Unable to cancel order", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OrderDetail.this, "Unable to cancel preparing orders", Toast.LENGTH_SHORT).show();
+                } else if((Common.currentOrder.getStatus().equals("2")) || (Common.currentOrder.getStatus().equals("3"))){
+                    Toast.makeText(OrderDetail.this, "Unable to cancel prepared orders", Toast.LENGTH_SHORT).show();
+                } else if(Common.currentOrder.getStatus().equals("4")) {
+                    Toast.makeText(OrderDetail.this, "Unable to cancel completed orders", Toast.LENGTH_SHORT).show();
                 } else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderDetail.this);
                     alertDialog.setTitle("Cancel Confirmation!");
@@ -148,8 +155,9 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                     alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                                orders.child(orderIdValue).child("status").setValue("-1");
-                                Common.currentOrder.setStatus("-1");
+                                orders.child(orderIdValue).child("status").setValue("-2");
+                                orders.child(orderIdValue).child("custIDStatusFilter").setValue(Common.currentUser.getCustID() + "-1");
+                                Common.currentOrder.setStatus("-2");
                                 Toast.makeText(OrderDetail.this, "Order cancelled", Toast.LENGTH_SHORT).show();
                                 dialogInterface.dismiss();
 
@@ -179,7 +187,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
 
             @Override
             public void onClick(View view) {
-                if(!Common.currentOrder.getStatus().equals("3")) {
+                if(!Common.currentOrder.getStatus().equals("4")) {
                     Toast.makeText(OrderDetail.this, "Only completed orders can be rated", Toast.LENGTH_SHORT).show();
                 } else if (rateOrderButton.getText().equals("Order Rated")) {
                     Toast.makeText(OrderDetail.this,"Order already has a rating!",Toast.LENGTH_SHORT).show();
@@ -252,8 +260,10 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
             return "Ready to Pickup";
         else if(status.equals("4"))
             return "Completed";
+        else if(status.equals("-1"))
+            return "Cancelled by You";
         else
-            return "Cancelled";
+            return "Cancelled by Restaurant";
     }
 
 

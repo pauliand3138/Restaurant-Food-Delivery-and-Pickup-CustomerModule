@@ -139,7 +139,7 @@ public class Cart extends AppCompatActivity {
                 double scheduledClose;
 
             //Drop down list logic - start
-                if (currentHour == openingHour) {
+                if (currentHour < openingHour) {
                     if(openingMinute > 0) {
                         scheduledOpen = openingHour + 0.5;
                     } else {

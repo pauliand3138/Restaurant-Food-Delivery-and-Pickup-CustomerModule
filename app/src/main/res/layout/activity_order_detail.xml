@@ -127,8 +127,8 @@
         android:layout_marginTop="-5dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp">
 
         <TextView
             android:id="@+id/order_information"
@@ -176,6 +176,25 @@
                     android:gravity="center_vertical|start"
                     android:text="10-5-2021 "
                     android:textAllCaps="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical|start"
+                    android:text="Schedule"
+                    android:textAllCaps="true"
+                    android:textColor="#2B77ED"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/order_schedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical|start"
+                    android:text="NOW " />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -252,9 +271,13 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:paddingBottom="50dp"
         app:cardElevation="4dp"
         app:cardCornerRadius="20dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -309,6 +332,7 @@
 
         </LinearLayout>
 
+        </ScrollView>
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
