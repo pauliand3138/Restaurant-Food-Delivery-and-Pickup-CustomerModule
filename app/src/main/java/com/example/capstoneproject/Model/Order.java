@@ -12,11 +12,13 @@ public class Order {
     private String orderRequest;
     private List<CartDetail> foods; //List of food order
     private String custIDStatusFilter;
+    private String isScheduled;
+    private String scheduledTime;
 
     public Order() {
     }
 
-    public Order(String custID, String orderTelNo, String orderAddress, String orderType, String orderPrice, String orderRequest, List<CartDetail> foods) {
+    public Order(String custID, String orderTelNo, String orderAddress, String orderType, String orderPrice, String orderRequest, List<CartDetail> foods, String isScheduled, String scheduledTime) {
         this.custID = custID;
         this.orderTelNo = orderTelNo;
         this.orderAddress = orderAddress;
@@ -26,6 +28,8 @@ public class Order {
         this.foods = foods;
         this.status = "0"; //Default is 0, 0: Placed, 1: Delivering, 2: Delivered
         this.custIDStatusFilter = custID + this.status;
+        this.isScheduled = isScheduled;
+        this.scheduledTime = scheduledTime;
     }
 
     public String getStatus() {
@@ -98,5 +102,21 @@ public class Order {
 
     public void setCustIDStatusFilter(String custIDStatusFilter) {
         this.custIDStatusFilter = custIDStatusFilter;
+    }
+
+    public String isScheduled() {
+        return isScheduled;
+    }
+
+    public void setScheduled(String scheduled) {
+        isScheduled = scheduled;
+    }
+
+    public String getScheduledTime() {
+        return scheduledTime;
+    }
+
+    public void setScheduledTime(String scheduledTime) {
+        this.scheduledTime = scheduledTime;
     }
 }

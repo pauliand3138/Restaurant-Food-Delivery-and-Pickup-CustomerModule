@@ -70,6 +70,46 @@
                 app:met_singleLineEllipsis="true"
                 android:layout_marginHorizontal="15dp"/>
 
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp">
+
+                <RadioButton
+                    android:id="@+id/radioDeliveryNow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Deliver Now (30 mins)"
+                    android:checked="true"
+                    android:buttonTint="@color/transparentBlack"
+                    android:textSize="15sp"
+                    android:layout_marginHorizontal="15dp"/>
+
+
+                <RadioButton
+                    android:id="@+id/radioDeliveryLater"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Deliver Later"
+                    android:buttonTint="@color/transparentBlack"
+                    android:textSize="15sp"
+                    android:layout_marginHorizontal="15dp">
+
+
+                </RadioButton>
+
+            </RadioGroup>
+
+            <Spinner
+                android:visibility="invisible"
+                android:id="@+id/spinner"
+                android:layout_marginRight="150dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Spinner>
         </LinearLayout>
 
 

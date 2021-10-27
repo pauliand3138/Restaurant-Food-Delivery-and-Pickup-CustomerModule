@@ -54,6 +54,47 @@
                 android:layout_marginHorizontal="15dp"
                 app:met_singleLineEllipsis="true"/>
 
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-10dp">
+
+                <RadioButton
+                    android:id="@+id/radioCollectNow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Self-Collect Now (30 mins)"
+                    android:checked="true"
+                    android:buttonTint="@color/transparentBlack"
+                    android:textSize="15sp"
+                    android:layout_marginHorizontal="15dp"/>
+
+
+                <RadioButton
+                    android:id="@+id/radioCollectLater"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Self-Collect Later"
+                    android:buttonTint="@color/transparentBlack"
+                    android:textSize="15sp"
+                    android:layout_marginHorizontal="15dp">
+
+
+                </RadioButton>
+
+            </RadioGroup>
+
+            <Spinner
+                android:visibility="invisible"
+                android:id="@+id/spinner"
+                android:layout_marginRight="150dp"
+                android:layout_marginLeft="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Spinner>
+
         </LinearLayout>
 
 

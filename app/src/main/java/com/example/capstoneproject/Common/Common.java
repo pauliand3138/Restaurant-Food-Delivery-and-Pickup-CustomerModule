@@ -5,6 +5,7 @@ import android.text.format.DateFormat;
 import com.example.capstoneproject.Model.Customer;
 import com.example.capstoneproject.Model.DeliverOrPickup;
 import com.example.capstoneproject.Model.Order;
+import com.example.capstoneproject.Model.Restaurant;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -12,6 +13,7 @@ import java.util.TimeZone;
 
 public class Common {
 
+    public static Restaurant currentRestaurant;
     public static Customer currentUser;
     public static DeliverOrPickup currentOrderType;
     public static Order currentOrder;

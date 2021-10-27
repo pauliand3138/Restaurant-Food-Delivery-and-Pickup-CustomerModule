@@ -1,26 +1,23 @@
 package com.example.capstoneproject;
 
-import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.capstoneproject.Common.Common;
 import com.example.capstoneproject.Interface.ItemClickListener;
-import com.example.capstoneproject.Model.Food;
 import com.example.capstoneproject.Model.FoodCategory;
 import com.example.capstoneproject.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
+import androidx.appcompat.app.AlertDialog;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -33,9 +30,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.capstoneproject.databinding.ActivityHomeBinding;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 public class Home extends AppCompatActivity {
 
@@ -46,6 +43,9 @@ public class Home extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
 
     FirebaseRecyclerAdapter<FoodCategory,MenuViewHolder> adapter;
+
+    String restOpening = Common.currentRestaurant.getRestOpening().substring(0, Common.currentRestaurant.getRestOpening().length() - 3);
+    String restLastOrder = Common.currentRestaurant.getRestLastOrderTime().substring(0, Common.currentRestaurant.getRestLastOrderTime().length() - 3);
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityHomeBinding binding;
@@ -124,8 +124,65 @@ public class Home extends AppCompatActivity {
         recyclerMenu.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerMenu.setLayoutManager(layoutManager);
-        
+
         loadMenu();
+
+        Calendar timeNow = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kuala_Lumpur"));
+        double currentHour = timeNow.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = timeNow.get(Calendar.MINUTE);
+
+        String[] openingHourMinute = restOpening.split(":");
+        double openingHour = Double.parseDouble(openingHourMinute[0]);
+        int openingMinute = Integer.parseInt(openingHourMinute[1]);
+
+        String[] closingHourMinute = restLastOrder.split(":");
+        double closingHour = Double.parseDouble(closingHourMinute[0]);
+        int closingMinute = Integer.parseInt(closingHourMinute[1]);
+
+        double lastOrderHour;
+        int lastOrderMinute;
+
+        if (closingMinute > 0) {
+            lastOrderMinute = 30;
+            lastOrderHour = closingHour;
+        } else {
+            lastOrderHour = closingHour - 1;
+            lastOrderMinute = 0;
+        }
+
+        //Before operating hours
+        if ((currentHour < openingHour) || ((currentHour == openingHour) && (currentMinute < openingMinute))) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
+            alertDialog.setTitle("Alert Notification!");
+            alertDialog.setMessage("Our restaurant is still not open.\nYou may choose to order in advance during checkout.");
+            alertDialog.setIcon(R.drawable.ic_baseline_warning_24);
+
+            alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            alertDialog.show();
+
+        //After operating hours
+       } else if ((currentHour > lastOrderHour) || ((currentHour == lastOrderHour) && (currentMinute > lastOrderMinute))) {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(Home.this);
+            alertDialog.setTitle("Alert Notification!");
+            alertDialog.setMessage("Our restaurant is closed.\nYou may order on the next day.");
+            alertDialog.setIcon(R.drawable.ic_baseline_warning_24);
+
+            alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            alertDialog.show();
+        }
+
     }
 
     private void loadMenu() {

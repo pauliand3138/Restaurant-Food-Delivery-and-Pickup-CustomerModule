@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.capstoneproject.Common.Common;
@@ -15,6 +16,7 @@ public class OrderType extends AppCompatActivity {
 
     Button deliveryButton;
     Button dineInButton;
+    TextView titleTextView;
     int backpress = 0;
 
     @Override
@@ -22,6 +24,8 @@ public class OrderType extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_type);
 
+        titleTextView = findViewById(R.id.titleTextView);
+        titleTextView.setText(Common.currentRestaurant.getRestName());
         deliveryButton = findViewById(R.id.deliveryButton);
         dineInButton = findViewById(R.id.dineInButton);
 

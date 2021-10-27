@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/lobster"
             android:gravity="center"
-            android:text="@string/inti_restaurant"
+            android:text="HAHA"
             android:textColor="#FFFFFF"
             android:textSize="40sp" />
 
