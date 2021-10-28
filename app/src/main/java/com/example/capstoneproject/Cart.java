@@ -110,7 +110,7 @@ public class Cart extends AppCompatActivity {
         //if orderType is delivery
         if (Common.currentOrderType.getOrderType().equals("Delivery")) {
 
-            if(txtTotalPrice.getText().toString().equals("RM0.00")) {
+            if(txtTotalPrice.getText().toString().equals("RM 0.00")) {
                 Toast.makeText(Cart.this, "Cart must not be empty!", Toast.LENGTH_SHORT).show();
 
             } else {
@@ -282,7 +282,7 @@ public class Cart extends AppCompatActivity {
         //if orderType is dine in
         } else {
 
-            if(txtTotalPrice.getText().toString().equals("RM0.00")) {
+            if(txtTotalPrice.getText().toString().equals("RM 0.00")) {
                 Toast.makeText(Cart.this, "Cart must not be empty!", Toast.LENGTH_SHORT).show();
             } else {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);

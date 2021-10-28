@@ -135,20 +135,18 @@ public class Home extends AppCompatActivity {
         double openingHour = Double.parseDouble(openingHourMinute[0]);
         int openingMinute = Integer.parseInt(openingHourMinute[1]);
 
-        String[] closingHourMinute = restLastOrder.split(":");
-        double closingHour = Double.parseDouble(closingHourMinute[0]);
-        int closingMinute = Integer.parseInt(closingHourMinute[1]);
+        String[] lastOrderHourMinute = restLastOrder.split(":");
+        double lastOrderHour = Double.parseDouble(lastOrderHourMinute[0]);
+        int lastOrderMinute = Integer.parseInt(lastOrderHourMinute[1]);
 
-        double lastOrderHour;
-        int lastOrderMinute;
 
-        if (closingMinute > 0) {
-            lastOrderMinute = 30;
-            lastOrderHour = closingHour;
-        } else {
-            lastOrderHour = closingHour - 1;
-            lastOrderMinute = 0;
-        }
+//        if (closingMinute > 0) {
+//            lastOrderMinute = 30;
+//            lastOrderHour = closingHour;
+//        } else {
+//            lastOrderHour = closingHour - 1;
+//            lastOrderMinute = 0;
+//        }
 
         //Before operating hours
         if ((currentHour < openingHour) || ((currentHour == openingHour) && (currentMinute < openingMinute))) {

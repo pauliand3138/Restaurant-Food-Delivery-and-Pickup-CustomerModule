@@ -51,7 +51,11 @@ public class Registration extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            if (passwordText.getText().toString().equals(retypePasswordText.getText().toString())) {
+                            if (nameText.getText().toString().equals("") || usernameText.getText().toString().equals("") || passwordText.getText().toString().equals("") ||
+                                retypePasswordText.getText().toString().equals("") || nameText.getText().toString().equals("")) {
+                                Toast.makeText(Registration.this, "All fields must not be empty!", Toast.LENGTH_SHORT).show();
+
+                            } else if ((passwordText.getText().toString().equals(retypePasswordText.getText().toString())) && (!passwordText.getText().toString().equals(""))) {
                                 //Username already exist
                                 if (snapshot.child(usernameText.getText().toString()).exists()) {
                                     Toast.makeText(Registration.this, "Username already exist!", Toast.LENGTH_SHORT).show();
@@ -59,13 +63,12 @@ public class Registration extends AppCompatActivity {
                                 } else {
                                     Customer customer = new Customer(nameText.getText().toString(), passwordText.getText().toString(), telNoText.getText().toString());
                                     customerTable.child(usernameText.getText().toString()).setValue(customer);
-                                    Toast.makeText(Registration.this, "Registration Successful! ", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Registration.this, "Registration successful! ", Toast.LENGTH_SHORT).show();
                                     finish(); //close activity
                                 }
                             } else {
                                 Toast.makeText(Registration.this, "Both passwords must be the same!", Toast.LENGTH_SHORT).show();
                             }
-
                         }
 
                         @Override

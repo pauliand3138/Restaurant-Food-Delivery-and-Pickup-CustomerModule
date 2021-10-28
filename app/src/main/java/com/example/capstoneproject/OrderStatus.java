@@ -67,12 +67,12 @@ public class OrderStatus extends AppCompatActivity {
     }
 
     private void loadOrders(String filterSelected) {
-        Query helloQuery;
+        Query readQuery;
 
-        if( filterSelected.equals(Common.currentUser.getCustID())) {
-            helloQuery = orders.orderByChild("custID").equalTo(Common.currentUser.getCustID());
+        if(filterSelected.equals(Common.currentUser.getCustID())) {
+            readQuery = orders.orderByChild("custID").equalTo(Common.currentUser.getCustID());
         } else {
-            helloQuery = orders.orderByChild("custIDStatusFilter").equalTo(filterSelected);
+            readQuery = orders.orderByChild("custIDStatusFilter").equalTo(filterSelected);
         }
 
 
@@ -80,7 +80,7 @@ public class OrderStatus extends AppCompatActivity {
                 Order.class,
                 R.layout.order_layout,
                 OrderViewHolder.class,
-                helloQuery
+                readQuery
         ) {
             @Override
             protected void populateViewHolder(OrderViewHolder orderViewHolder, Order order, int i) {
@@ -90,15 +90,20 @@ public class OrderStatus extends AppCompatActivity {
                 orderViewHolder.txtOrderType.setText(String.format("Order Type: ") + order.getOrderType());
                 orderViewHolder.txtOrderDate.setText(Common.getDate(Long.parseLong(adapter.getRef(i).getKey())));
 
+                //Set text color of order status
                 if(convertCodeToStatus(order.getStatus()).equals("Placed")) {
                     orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#29B438"));
-                } else if ((convertCodeToStatus(order.getStatus()).equals("Delivering")) || (convertCodeToStatus(order.getStatus()).equals("Ready to Pickup"))) {
+                }
+                else if ((convertCodeToStatus(order.getStatus()).equals("Delivering")) || (convertCodeToStatus(order.getStatus()).equals("Ready to Pickup"))) {
                     orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#FF7800"));
-                } else if (convertCodeToStatus(order.getStatus()).equals("Preparing")) {
+                }
+                else if (convertCodeToStatus(order.getStatus()).equals("Preparing")) {
                     orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#EAA825"));
-                } else if (convertCodeToStatus(order.getStatus()).equals("Completed")) {
+                }
+                else if (convertCodeToStatus(order.getStatus()).equals("Completed")) {
                     orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#EE1010"));
-                } else {
+                }
+                else {
                     orderViewHolder.txtOrderStatus.setTextColor(Color.parseColor("#080808"));
                 }
 

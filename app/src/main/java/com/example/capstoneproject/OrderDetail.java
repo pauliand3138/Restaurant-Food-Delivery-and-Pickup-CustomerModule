@@ -98,6 +98,12 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
             }
         });
 
+
+
+        OrderDetailAdapter adapter = new OrderDetailAdapter(Common.currentOrder.getFoods());
+        adapter.notifyDataSetChanged();
+        foodList.setAdapter(adapter);
+
         orderId.setText(String.format("Order # ") + orderIdValue);
         orderPhone.setText(Common.currentUser.getCustTelNo());
         orderTime.setText(Common.getDate(Long.parseLong(orderIdValue)));
@@ -113,40 +119,54 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
         } else {
             orderRequest.setText(Common.currentOrder.getOrderRequest());
         }
+
+        //Set Image displayed for different order status
         orderStatus.setText(convertCodeToStatus(Common.currentOrder.getStatus()));
         if(convertCodeToStatus(Common.currentOrder.getStatus()).equals("Placed")) {
             statusImage.setImageResource(R.drawable.placedimage_trans);
-        } else if (convertCodeToStatus(Common.currentOrder.getStatus()).equals("Preparing")) {
+        }
+        else if (convertCodeToStatus(Common.currentOrder.getStatus()).equals("Preparing")) {
             statusImage.setImageResource(R.drawable.preparingimage_trans);
-        } else if (convertCodeToStatus(Common.currentOrder.getStatus()).equals("Delivering")) {
+        }
+        else if (convertCodeToStatus(Common.currentOrder.getStatus()).equals("Delivering")) {
             statusImage.setImageResource(R.drawable.deliveringimage_trans);
-        } else if (convertCodeToStatus(Common.currentOrder.getStatus()).equals("Ready to Pickup")) {
+        }
+        else if (convertCodeToStatus(Common.currentOrder.getStatus()).equals("Ready to Pickup")) {
             statusImage.setImageResource(R.drawable.readytopickupimage_trans);
-        } else if (convertCodeToStatus(Common.currentOrder.getStatus()).equals("Completed")) {
+        }
+        else if (convertCodeToStatus(Common.currentOrder.getStatus()).equals("Completed")) {
             statusImage.setImageResource(R.drawable.completed_v2);
-        } else {
+        }
+        else {
             statusImage.setImageResource(R.drawable.cancelledimage_trans);
         }
-        OrderDetailAdapter adapter = new OrderDetailAdapter(Common.currentOrder.getFoods());
-        adapter.notifyDataSetChanged();
-        foodList.setAdapter(adapter);
+
+
+
+
+
         orderedFoods = TextUtils.join(", ", adapter.getFoodsName());
-        //Toast.makeText(OrderDetail.this, orderedFoods, Toast.LENGTH_SHORT).show();
+
 
         cancelOrderButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
+                //Display Toast message if order status is not "Placed"
                 if(Common.currentOrder.getStatus().equals("-1")) {
                     Toast.makeText(OrderDetail.this, "Order is already cancelled", Toast.LENGTH_SHORT).show();
-                } else if(Common.currentOrder.getStatus().equals("1")) {
+                }
+                else if(Common.currentOrder.getStatus().equals("1")) {
                     Toast.makeText(OrderDetail.this, "Unable to cancel preparing orders", Toast.LENGTH_SHORT).show();
-                } else if((Common.currentOrder.getStatus().equals("2")) || (Common.currentOrder.getStatus().equals("3"))){
+                }
+                else if((Common.currentOrder.getStatus().equals("2")) || (Common.currentOrder.getStatus().equals("3"))){
                     Toast.makeText(OrderDetail.this, "Unable to cancel prepared orders", Toast.LENGTH_SHORT).show();
-                } else if(Common.currentOrder.getStatus().equals("4")) {
+                }
+                else if(Common.currentOrder.getStatus().equals("4")) {
                     Toast.makeText(OrderDetail.this, "Unable to cancel completed orders", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderDetail.this);
                     alertDialog.setTitle("Cancel Confirmation!");
                     alertDialog.setMessage("Are you sure to cancel this order?\nThis action cannot be undone");
@@ -166,19 +186,15 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                                 overridePendingTransition(0, 0);
                                 startActivity(getIntent());
                                 overridePendingTransition(0, 0);
-
                         }
                     });
-
                     alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
                         }
                     });
-
                     alertDialog.show();
-                    ;
                 }
             }
         });
