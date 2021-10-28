@@ -158,7 +158,7 @@ public class Profile extends AppCompatActivity {
 
                         //Current password equals to new password
                         } else if(currentPassword.equals(newPasswordTxt.getText().toString())) {
-                            Toast.makeText(Profile.this, "Current password must not be the same as New password!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Profile.this, "New password must not be the same as Current password!", Toast.LENGTH_SHORT).show();
 
                         //Current password is invalid
                         } else if (!currentPassword.equals(currentPasswordTxt.getText().toString())) {
