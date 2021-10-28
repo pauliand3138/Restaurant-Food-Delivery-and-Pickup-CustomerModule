@@ -154,7 +154,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
             public void onClick(View view) {
 
                 //Display Toast message if order status is not "Placed"
-                if(Common.currentOrder.getStatus().equals("-1")) {
+                if(Common.currentOrder.getStatus().equals("-1") || Common.currentOrder.getStatus().equals("-2") ) {
                     Toast.makeText(OrderDetail.this, "Order is already cancelled", Toast.LENGTH_SHORT).show();
                 }
                 else if(Common.currentOrder.getStatus().equals("1")) {
@@ -177,7 +177,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                         public void onClick(DialogInterface dialogInterface, int i) {
                                 orders.child(orderIdValue).child("status").setValue("-2");
                                 orders.child(orderIdValue).child("custIDStatusFilter").setValue(Common.currentUser.getCustID() + "-1");
-                                Common.currentOrder.setStatus("-2");
+                                Common.currentOrder.setStatus("-1");
                                 Toast.makeText(OrderDetail.this, "Order cancelled", Toast.LENGTH_SHORT).show();
                                 dialogInterface.dismiss();
 

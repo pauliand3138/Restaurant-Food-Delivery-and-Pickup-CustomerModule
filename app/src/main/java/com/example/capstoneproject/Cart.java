@@ -176,7 +176,7 @@ public class Cart extends AppCompatActivity {
                         if (count == 1) {
                             timeChoice.add((int)i + ":" + "30 " + amPM);
                             count++;
-                            i+=0.5;
+                            i++;
                         }
                         if (count % 2 == 0) {
                             timeChoice.add((int)i + ":" + "00 " + amPM);
@@ -348,7 +348,7 @@ public class Cart extends AppCompatActivity {
                         if (count == 1) {
                             timeChoice.add((int)i + ":" + "30 " + amPM);
                             count++;
-                            i+=0.5;
+                            i++;
                         }
                         if (count % 2 == 0) {
                             timeChoice.add((int)i + ":" + "00 " + amPM);
