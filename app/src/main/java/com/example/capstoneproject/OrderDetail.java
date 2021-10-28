@@ -175,7 +175,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                     alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                                orders.child(orderIdValue).child("status").setValue("-2");
+                                orders.child(orderIdValue).child("status").setValue("-1");
                                 orders.child(orderIdValue).child("custIDStatusFilter").setValue(Common.currentUser.getCustID() + "-1");
                                 Common.currentOrder.setStatus("-1");
                                 Toast.makeText(OrderDetail.this, "Order cancelled", Toast.LENGTH_SHORT).show();
