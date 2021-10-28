@@ -132,8 +132,10 @@ public class OrderStatus extends AppCompatActivity {
             return "Ready to Pickup";
         else if(status.equals("4"))
             return "Completed";
+        else if(status.equals("-1"))
+            return "Cancelled by You";
         else
-            return "Cancelled";
+            return "Cancelled by Restaurant";
     }
 
 
