@@ -151,8 +151,13 @@ public class Profile extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String currentPassword = Common.currentUser.getCustPassword();
 
+                        //Empty fields
+                        if(currentPasswordTxt.getText().toString().equals("") || newPasswordTxt.getText().toString().equals("") ||
+                           retypePasswordTxt.getText().toString().equals("")) {
+                            Toast.makeText(Profile.this, "All fields must not be empty!", Toast.LENGTH_SHORT).show();
+
                         //Current password equals to new password
-                        if(currentPassword.equals(newPasswordTxt.getText().toString())) {
+                        } else if(currentPassword.equals(newPasswordTxt.getText().toString())) {
                             Toast.makeText(Profile.this, "Current password must not be the same as New password!", Toast.LENGTH_SHORT).show();
 
                         //Current password is invalid
