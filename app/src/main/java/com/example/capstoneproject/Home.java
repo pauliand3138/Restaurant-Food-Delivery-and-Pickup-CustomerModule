@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.capstoneproject.Common.Common;
+import com.example.capstoneproject.Service.ListenOrder;
 import com.example.capstoneproject.Interface.ItemClickListener;
 import com.example.capstoneproject.Model.FoodCategory;
 import com.example.capstoneproject.ViewHolder.MenuViewHolder;
@@ -181,6 +182,8 @@ public class Home extends AppCompatActivity {
             alertDialog.show();
         }
 
+        Intent service = new Intent(Home.this, ListenOrder.class);
+        startService(service);
     }
 
     private void loadMenu() {
