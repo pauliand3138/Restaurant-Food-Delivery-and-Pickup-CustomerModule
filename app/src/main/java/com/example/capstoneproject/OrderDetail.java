@@ -177,6 +177,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                         public void onClick(DialogInterface dialogInterface, int i) {
                                 orders.child(orderIdValue).child("status").setValue("-1");
                                 orders.child(orderIdValue).child("custIDStatusFilter").setValue(Common.currentUser.getCustID() + "-1");
+                                orders.child(orderIdValue).child("adminFilter").setValue("-1");
                                 Common.currentOrder.setStatus("-1");
                                 Toast.makeText(OrderDetail.this, "Order cancelled", Toast.LENGTH_SHORT).show();
                                 dialogInterface.dismiss();

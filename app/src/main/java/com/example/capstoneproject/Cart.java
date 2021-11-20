@@ -476,8 +476,15 @@ public class Cart extends AppCompatActivity {
     }
 
     private void deleteCart(int position) {
+
+        CartDetail deletedItem = cart.get(position);
+
+        Toast.makeText(Cart.this, deletedItem.getQuantity() + "x " + deletedItem.getFoodName() +
+                        " is deleted", Toast.LENGTH_SHORT).show();
+
         //Remove item at List<CartDetail> by position
         cart.remove(position);
+
 
         //Delete all data from SQLite
         new Database(this).cleanCart();

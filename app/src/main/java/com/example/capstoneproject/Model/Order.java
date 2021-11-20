@@ -3,6 +3,7 @@ package com.example.capstoneproject.Model;
 import java.util.List;
 
 public class Order {
+    private String adminFilter;
     private String custID;
     private String orderTelNo;
     private String orderAddress;
@@ -19,6 +20,7 @@ public class Order {
     }
 
     public Order(String custID, String orderTelNo, String orderAddress, String orderType, String orderPrice, String orderRequest, List<CartDetail> foods, String isScheduled, String scheduledTime) {
+        this.adminFilter = "0";
         this.custID = custID;
         this.orderTelNo = orderTelNo;
         this.orderAddress = orderAddress;
@@ -31,6 +33,10 @@ public class Order {
         this.isScheduled = isScheduled;
         this.scheduledTime = scheduledTime;
     }
+
+    public String getAdminFilter() {return adminFilter;}
+
+    public void setAdminFilter(String adminFilter) {this.adminFilter = adminFilter;}
 
     public String getStatus() {
         return status;

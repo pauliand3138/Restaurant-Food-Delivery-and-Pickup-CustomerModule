@@ -148,7 +148,8 @@ public class FoodList extends AppCompatActivity {
         };
         recyclerView.setAdapter(searchAdapter);
     }
-            private void loadSuggest() {
+
+    private void loadSuggest() {
                 foodList.orderByChild("foodCatID").equalTo(foodCatID)
                         .addValueEventListener(new ValueEventListener() {
                             @Override
@@ -166,7 +167,7 @@ public class FoodList extends AppCompatActivity {
                         });
             }
 
-            private void loadFoodList(String foodCatID) {
+    private void loadFoodList(String foodCatID) {
                 adapter = new FirebaseRecyclerAdapter<Food, FoodViewHolder>(Food.class, R.layout.food_item, FoodViewHolder.class,
                         foodList.orderByChild("foodCatID").equalTo(foodCatID)) { //Similar to SQL statement, SELECT * FROM Food WHERE foodCatID = xxx
 
