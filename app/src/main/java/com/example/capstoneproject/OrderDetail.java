@@ -187,6 +187,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                                 overridePendingTransition(0, 0);
                                 startActivity(getIntent());
                                 overridePendingTransition(0, 0);
+
                         }
                     });
                     alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
