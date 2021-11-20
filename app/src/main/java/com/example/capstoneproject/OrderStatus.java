@@ -53,7 +53,12 @@ public class OrderStatus extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        loadOrders(Common.currentUser.getCustID());
+        //If start orderStatus activity from Home Activity (will not put any extra, direct loadOrder by custID from Common)
+        if(getIntent() == null)
+            loadOrders(Common.currentUser.getCustID());
+        else
+            loadOrders(getIntent().getStringExtra("custID"));
+
         adapter.notifyDataSetChanged();
 
         allFilterButton = findViewById(R.id.allFilterButton);

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import com.example.capstoneproject.Common.Common;
 import com.example.capstoneproject.Model.Order;
 import com.example.capstoneproject.OrderStatus;
+import com.example.capstoneproject.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,18 +60,20 @@ public class ListenOrder extends Service implements ChildEventListener {
 
     private void showNotification(String key, Order order) {
         Intent intent = new Intent(getBaseContext(), OrderStatus.class);
-        intent.putExtra("userPhone", order.getOrderTelNo());
+        intent.putExtra("custID", order.getCustID());
         PendingIntent contentIntent = PendingIntent.getActivity(getBaseContext(),0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Notification.Builder notification = new Notification.Builder(getBaseContext())
-                .setAutoCancel(true)
+        Notification.Builder notification = new Notification.Builder(getBaseContext());
+
+        notification.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setTicker("INTI Restaurant")
                 .setContentInfo("Your order was updated")
                 .setContentText("Order #" + key + "was update status to " + Common.convertCodeToStatus(order.getStatus()))
                 .setContentIntent(contentIntent)
-                .setContentInfo("Info");
+                .setContentInfo("Info")
+                .setSmallIcon(R.mipmap.ic_launcher);
 
         NotificationManager notificationManager = (NotificationManager)getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, notification.build());

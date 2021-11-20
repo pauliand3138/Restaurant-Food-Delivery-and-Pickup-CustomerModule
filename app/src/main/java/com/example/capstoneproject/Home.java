@@ -128,6 +128,9 @@ public class Home extends AppCompatActivity {
 
         loadMenu();
 
+        Intent service = new Intent(Home.this, ListenOrder.class);
+        startService(service);
+
         Calendar timeNow = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kuala_Lumpur"));
         double currentHour = timeNow.get(Calendar.HOUR_OF_DAY);
         int currentMinute = timeNow.get(Calendar.MINUTE);
@@ -181,9 +184,6 @@ public class Home extends AppCompatActivity {
 
             alertDialog.show();
         }
-
-        Intent service = new Intent(Home.this, ListenOrder.class);
-        startService(service);
     }
 
     private void loadMenu() {
