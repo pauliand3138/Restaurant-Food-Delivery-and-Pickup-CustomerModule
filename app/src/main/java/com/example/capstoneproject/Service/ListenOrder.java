@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Locale;
+
 public class ListenOrder extends Service implements ChildEventListener {
 
     FirebaseDatabase database;
@@ -70,28 +72,40 @@ public class ListenOrder extends Service implements ChildEventListener {
         intent.putExtra("custID", order.getCustID());
         PendingIntent contentIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel channel=
-                    new NotificationChannel("foodStatus","foodStatus",NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager notificationManager=getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+        if( order.getCustID().equals(Common.currentUser.getCustID())){
 
+            if (!order.getStatus().equals("-1")){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    NotificationChannel channel =
+                            new NotificationChannel("foodStatus", "foodStatus", NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                    notificationManager.createNotificationChannel(channel);
+
+                }
+
+                Notification.Builder notification = new Notification.Builder(this, "foodStatus");
+
+                String text = "";
+
+                if (Integer.parseInt(order.getStatus()) >= 0 && Integer.parseInt(order.getStatus()) <= 4)
+                    text = " is ";
+                else
+                    text = " has been ";
+
+                notification.setAutoCancel(true)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setWhen(System.currentTimeMillis())
+                        .setTicker("INTI Restaurant")
+                        .setContentInfo("Your order was updated")
+                        .setContentText("Your order #" + key + text + Common.convertCodeToStatus(order.getStatus()).toLowerCase())
+                        .setContentIntent(contentIntent)
+                        .setContentInfo("Info")
+                        .setSmallIcon(R.drawable.init_logo);
+
+                NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(1, notification.build());
+            }
         }
-
-        Notification.Builder notification = new Notification.Builder(this,"foodStatus");
-
-        notification.setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setWhen(System.currentTimeMillis())
-                .setTicker("INTI Restaurant")
-                .setContentInfo("Your order was updated")
-                .setContentText("Order #" + key + "was update status to " + Common.convertCodeToStatus(order.getStatus()))
-                .setContentIntent(contentIntent)
-                .setContentInfo("Info")
-                .setSmallIcon(R.mipmap.ic_launcher);
-
-        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1, notification.build());
     }
 
     @Override

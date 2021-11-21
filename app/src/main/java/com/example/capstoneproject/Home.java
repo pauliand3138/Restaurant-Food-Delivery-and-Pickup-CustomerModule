@@ -128,6 +128,7 @@ public class Home extends AppCompatActivity {
 
         loadMenu();
 
+        //Register Service
         Intent service = new Intent(Home.this, ListenOrder.class);
         startService(service);
 
