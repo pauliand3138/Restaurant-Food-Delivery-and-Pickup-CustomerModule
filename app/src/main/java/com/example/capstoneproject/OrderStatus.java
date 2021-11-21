@@ -54,7 +54,7 @@ public class OrderStatus extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
 
         //If start orderStatus activity from Home Activity (will not put any extra, direct loadOrder by custID from Common)
-        if(getIntent() == null)
+        if(getIntent().getExtras() == null)
             loadOrders(Common.currentUser.getCustID());
         else
             loadOrders(getIntent().getStringExtra("custID"));
