@@ -1,15 +1,18 @@
 package com.example.capstoneproject.Service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.capstoneproject.Common.Common;
 import com.example.capstoneproject.Model.Order;
@@ -25,6 +28,7 @@ public class ListenOrder extends Service implements ChildEventListener {
 
     FirebaseDatabase database;
     DatabaseReference orders;
+
 
     public ListenOrder() {
     }
@@ -52,18 +56,29 @@ public class ListenOrder extends Service implements ChildEventListener {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
         Order order = snapshot.getValue(Order.class);
         showNotification(snapshot.getKey(),order);
     }
 
-    private void showNotification(String key, Order order) {
-        Intent intent = new Intent(getBaseContext(), OrderStatus.class);
-        intent.putExtra("custID", order.getCustID());
-        PendingIntent contentIntent = PendingIntent.getActivity(getBaseContext(),0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Notification.Builder notification = new Notification.Builder(getBaseContext());
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void showNotification(String key, Order order) {
+        Intent intent = new Intent(this, OrderStatus.class);
+        intent.putExtra("custID", order.getCustID());
+        PendingIntent contentIntent = PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel=
+                    new NotificationChannel("foodStatus","foodStatus",NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager=getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+        }
+
+        Notification.Builder notification = new Notification.Builder(this,"foodStatus");
 
         notification.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
@@ -75,7 +90,7 @@ public class ListenOrder extends Service implements ChildEventListener {
                 .setContentInfo("Info")
                 .setSmallIcon(R.mipmap.ic_launcher);
 
-        NotificationManager notificationManager = (NotificationManager)getBaseContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(1, notification.build());
     }
 
