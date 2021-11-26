@@ -105,7 +105,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
         foodList.setAdapter(adapter);
 
         orderId.setText(String.format("Order # ") + orderIdValue);
-        orderPhone.setText(Common.currentUser.getCustTelNo());
+        orderPhone.setText(Common.currentOrder.getOrderTelNo());
         orderTime.setText(Common.getDate(Long.parseLong(orderIdValue)));
         orderAddress.setText(Common.currentOrder.getOrderAddress());
         if(Common.currentOrder.getScheduledTime().equals("")) {

@@ -114,7 +114,7 @@
 
                     <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
                         android:id="@+id/numberButton"
-                        android:layout_width="129dp"
+                        android:layout_width="140dp"
                         android:layout_height="50dp"
                         android:layout_marginLeft="8dp"
                         android:layout_marginTop="10dp"
@@ -122,7 +122,7 @@
                         app:backGroundColor="@color/purple_500"
                         app:finalNumber="20"
                         app:initialNumber="1"
-                        app:textSize="8sp" />
+                        app:textSize="7sp" />
 
                 </LinearLayout>
 
