@@ -44,6 +44,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                if (!usernameText.getText().toString().isEmpty()) {
                     customerTable.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -77,7 +78,11 @@ public class Login extends AppCompatActivity {
                         public void onCancelled(@NonNull DatabaseError error) {
 
                         }
-                 });
+                    });
+                } else {
+                    Toast.makeText(Login.this, "Both fields must not be empty!", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

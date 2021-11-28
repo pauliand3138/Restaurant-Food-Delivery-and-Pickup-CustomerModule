@@ -211,6 +211,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                     Toast.makeText(OrderDetail.this,"Order already has a rating!",Toast.LENGTH_SHORT).show();
                 } else {
                     showRatingDialog();
+
                 }
 
             }
@@ -250,6 +251,11 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                 ratings.child(orderIdValue).setValue(rating);
                 Toast.makeText(OrderDetail.this, "Order rated successfully!", Toast.LENGTH_SHORT).show();
 
+                //refresh activity
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
             }
 
             @Override

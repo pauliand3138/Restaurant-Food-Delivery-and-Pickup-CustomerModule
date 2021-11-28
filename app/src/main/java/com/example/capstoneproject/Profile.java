@@ -99,33 +99,37 @@ public class Profile extends AppCompatActivity {
         updateProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Customer currentUser = Common.currentUser;
-                String custID = currentUser.getCustID();
-                String newName = editName.getText().toString().trim();
-                String newPhone = editPhone.getText().toString().trim();
 
-                customerTable.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        customerTable.child(custID).child("custName").setValue(newName);
-                        customerTable.child(custID).child("custTelNo").setValue(newPhone);
-                        currentUser.setCustName(newName);
-                        currentUser.setCustTelNo(newPhone);
-                        Toast.makeText(Profile.this,"Profile updated successfully!", Toast.LENGTH_SHORT).show();
+                if(!editName.getText().toString().isEmpty() && !editPhone.getText().toString().isEmpty()) {
+                    Customer currentUser = Common.currentUser;
+                    String custID = currentUser.getCustID();
+                    String newName = editName.getText().toString().trim();
+                    String newPhone = editPhone.getText().toString().trim();
 
-                        //refresh activity
-                        finish();
-                        overridePendingTransition(0, 0);
-                        startActivity(getIntent());
-                        overridePendingTransition(0, 0);
-                    }
+                    customerTable.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            customerTable.child(custID).child("custName").setValue(newName);
+                            customerTable.child(custID).child("custTelNo").setValue(newPhone);
+                            currentUser.setCustName(newName);
+                            currentUser.setCustTelNo(newPhone);
+                            Toast.makeText(Profile.this,"Profile updated successfully!", Toast.LENGTH_SHORT).show();
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                            //refresh activity
+                            finish();
+                            overridePendingTransition(0, 0);
+                            startActivity(getIntent());
+                            overridePendingTransition(0, 0);
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
 
+                        }
+                    });
+                } else {
+                    Toast.makeText(Profile.this,"All fields must not be empty!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
