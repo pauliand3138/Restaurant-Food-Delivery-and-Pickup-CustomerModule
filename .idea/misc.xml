@@ -16,10 +16,15 @@
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/activity_order_detail.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/activity_order_status.xml" value="0.24139492753623187" />
+        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/activity_profile.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/activity_rating.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/menu_item.xml" value="0.23641304347826086" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/order_detail_layout.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/order_layout.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/reset_password_alertdialog.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/menu/activity_main_drawer.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/menu/home.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/jianl/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.32083333333333336" />
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProject/app/src/main/res/drawable/side_nav_bar.xml" value="0.35989583333333336" />
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProject/app/src/main/res/layout/activity_food_detail.xml" value="0.33" />
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProject/app/src/main/res/layout/activity_food_list.xml" value="0.32395833333333335" />
@@ -63,6 +68,14 @@
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/layout/reset_password_alertdialog.xml" value="0.1" />
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/menu/activity_main_drawer.xml" value="0.26197916666666665" />
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser/app/src/main/res/menu/home.xml" value="0.315625" />
+        <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser_Newest/app/src/main/res/layout/activity_food_detail.xml" value="0.22" />
+        <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser_Newest/app/src/main/res/layout/activity_order_type.xml" value="0.18" />
+        <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser_Newest/app/src/main/res/layout/app_bar_home.xml" value="0.18993055555555555" />
+        <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser_Newest/app/src/main/res/layout/cart_layout.xml" value="0.18993055555555555" />
+        <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser_Newest/app/src/main/res/layout/content_home.xml" value="0.18993055555555555" />
+        <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser_Newest/app/src/main/res/layout/food_item.xml" value="0.18993055555555555" />
+        <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser_Newest/app/src/main/res/layout/menu_item.xml" value="0.18993055555555555" />
+        <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser_Newest/app/src/main/res/layout/nav_header_home.xml" value="0.18993055555555555" />
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser_v2.0/app/src/main/res/drawable/curvedlinearlayout.xml" value="0.19635416666666666" />
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser_v2.0/app/src/main/res/layout/activity_cart.xml" value="0.33299284984678246" />
         <entry key="..\:/Users/pauli/AndroidStudioProjects/CapstoneProjectUser_v2.0/app/src/main/res/layout/activity_home.xml" value="0.16018518518518518" />

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.capstoneproject.Common.Common;
+import com.example.capstoneproject.Service.ListenOrder;
 import com.example.capstoneproject.Interface.ItemClickListener;
 import com.example.capstoneproject.Model.FoodCategory;
 import com.example.capstoneproject.ViewHolder.MenuViewHolder;
@@ -127,6 +128,10 @@ public class Home extends AppCompatActivity {
 
         loadMenu();
 
+        //Register Service
+        Intent service = new Intent(Home.this, ListenOrder.class);
+        startService(service);
+
         Calendar timeNow = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kuala_Lumpur"));
         double currentHour = timeNow.get(Calendar.HOUR_OF_DAY);
         int currentMinute = timeNow.get(Calendar.MINUTE);
@@ -180,7 +185,6 @@ public class Home extends AppCompatActivity {
 
             alertDialog.show();
         }
-
     }
 
     private void loadMenu() {

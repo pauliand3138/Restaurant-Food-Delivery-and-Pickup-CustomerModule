@@ -239,7 +239,8 @@ public class Cart extends AppCompatActivity {
                                         requestText.getText().toString(),
                                         cart,
                                         "false",
-                                        ""
+                                        "",
+                                        "false"
                                 );
                             } else if (deliverLaterButton.isChecked()) {
                                 order = new Order(
@@ -251,14 +252,18 @@ public class Cart extends AppCompatActivity {
                                         requestText.getText().toString(),
                                         cart,
                                         "true",
-                                        spinner.getSelectedItem().toString()
+                                        spinner.getSelectedItem().toString(),
+                                        "false"
                                 );
                             }
 
 
                             //Submit order to firebase
-                            orders.child(String.valueOf(System.currentTimeMillis()))
-                                    .setValue(order);
+                            String id = String.valueOf(System.currentTimeMillis());
+                            orders.child(id).setValue(order);
+                            orders.child(id).child("notification").setValue("false");
+
+
                             //Delete cart after placing order
                             new Database(getBaseContext()).cleanCart();
                             Toast.makeText(Cart.this, "Thank you, order placed", Toast.LENGTH_SHORT).show();
@@ -406,7 +411,8 @@ public class Cart extends AppCompatActivity {
                                         requestText.getText().toString(),
                                         cart,
                                         "false",
-                                        ""
+                                        "",
+                                        "false"
                                 );
                             } else if (collectLaterButton.isChecked()) {
                                 order = new Order(
@@ -418,13 +424,16 @@ public class Cart extends AppCompatActivity {
                                         requestText.getText().toString(),
                                         cart,
                                         "true",
-                                        spinner.getSelectedItem().toString()
+                                        spinner.getSelectedItem().toString(),
+                                        "false"
                                 );
                             }
 
                             //Submit order to firebase
-                            orders.child(String.valueOf(System.currentTimeMillis()))
-                                    .setValue(order);
+                            String id = String.valueOf(System.currentTimeMillis());
+                            orders.child(id).setValue(order);
+                            orders.child(id).child("notification").setValue("false");
+
                             //Delete cart after placing order
                             new Database(getBaseContext()).cleanCart();
                             Toast.makeText(Cart.this, "Thank you, order placed", Toast.LENGTH_SHORT).show();
@@ -476,8 +485,15 @@ public class Cart extends AppCompatActivity {
     }
 
     private void deleteCart(int position) {
+
+        CartDetail deletedItem = cart.get(position);
+
+        Toast.makeText(Cart.this, deletedItem.getQuantity() + "x " + deletedItem.getFoodName() +
+                        " is deleted", Toast.LENGTH_SHORT).show();
+
         //Remove item at List<CartDetail> by position
         cart.remove(position);
+
 
         //Delete all data from SQLite
         new Database(this).cleanCart();

@@ -49,4 +49,21 @@ public class Common {
         }
         return day + " " +date.toString();
     }
+
+    public static String convertCodeToStatus(String status) {
+        if(status.equals("0"))
+            return "Placed";
+        else if(status.equals("1"))
+            return "Preparing";
+        else if(status.equals("2"))
+            return "Delivering";
+        else if(status.equals("3"))
+            return "Ready to Pickup";
+        else if(status.equals("4"))
+            return "Completed";
+        else if(status.equals("-1"))
+            return "Cancelled by You";
+        else
+            return "Cancelled by Restaurant";
+    }
 }

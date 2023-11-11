@@ -105,7 +105,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
         foodList.setAdapter(adapter);
 
         orderId.setText(String.format("Order # ") + orderIdValue);
-        orderPhone.setText(Common.currentUser.getCustTelNo());
+        orderPhone.setText(Common.currentOrder.getOrderTelNo());
         orderTime.setText(Common.getDate(Long.parseLong(orderIdValue)));
         orderAddress.setText(Common.currentOrder.getOrderAddress());
         if(Common.currentOrder.getScheduledTime().equals("")) {
@@ -177,6 +177,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                         public void onClick(DialogInterface dialogInterface, int i) {
                                 orders.child(orderIdValue).child("status").setValue("-1");
                                 orders.child(orderIdValue).child("custIDStatusFilter").setValue(Common.currentUser.getCustID() + "-1");
+                                orders.child(orderIdValue).child("adminFilter").setValue("-1");
                                 Common.currentOrder.setStatus("-1");
                                 Toast.makeText(OrderDetail.this, "Order cancelled", Toast.LENGTH_SHORT).show();
                                 dialogInterface.dismiss();
@@ -186,6 +187,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                                 overridePendingTransition(0, 0);
                                 startActivity(getIntent());
                                 overridePendingTransition(0, 0);
+
                         }
                     });
                     alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -209,6 +211,7 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                     Toast.makeText(OrderDetail.this,"Order already has a rating!",Toast.LENGTH_SHORT).show();
                 } else {
                     showRatingDialog();
+
                 }
 
             }
@@ -248,6 +251,11 @@ public class OrderDetail extends AppCompatActivity implements RatingDialogListen
                 ratings.child(orderIdValue).setValue(rating);
                 Toast.makeText(OrderDetail.this, "Order rated successfully!", Toast.LENGTH_SHORT).show();
 
+                //refresh activity
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
             }
 
             @Override
